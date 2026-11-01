@@ -416,6 +416,22 @@ button.remove-pose[aria-disabled="true"]:active { transform: none; }
   color: var(--muted);
 }
 
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: 48px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--faint);
+}
+
+.site-footer a {
+  color: var(--muted);
+  text-underline-offset: 3px;
+}
+
+.site-footer a:hover { color: var(--accent); }
+
 /* ---------- Small screens ---------- */
 
 @media (max-width: 480px) {
