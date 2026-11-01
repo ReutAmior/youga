@@ -1,0 +1,426 @@
+/* Youga — minimal, calming styling */
+
+:root {
+  /* Colors */
+  --bg: #f5f2ec;
+  --bg-glow: #e7eee5;
+  --surface: #fffdf9;
+  --text: #26302a;
+  --muted: #6f7a72;
+  --faint: #a3aca5;
+  --border: #e6e1d8;
+  --accent: #557a5f;
+  --accent-hover: #476a50;
+  --accent-soft: #e8f0e9;
+
+  /* Type */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Shape and depth */
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --shadow-card: 0 1px 2px rgba(38, 48, 42, 0.04), 0 8px 24px -12px rgba(38, 48, 42, 0.12);
+  --shadow-button: 0 6px 16px -8px rgba(85, 122, 95, 0.7);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, var(--bg-glow), transparent 70%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 72px 20px 64px;
+}
+
+[hidden] { display: none !important; }
+
+/* Gentle fade when a screen appears */
+section { animation: fade-in 0.45s ease both; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section { animation: none; }
+  * { transition: none !important; }
+}
+
+/* ---------- Typography ---------- */
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 8vw, 3.25rem);
+  line-height: 1.05;
+}
+
+/* Puts the tagline on its own line under "Youga" */
+h1 .dash { display: none; }
+
+h1 .tagline {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.55em;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+h2 {
+  font-size: clamp(1.9rem, 6vw, 2.4rem);
+  line-height: 1.1;
+}
+
+.intro {
+  margin: 16px 0 36px;
+  max-width: 38ch;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+/* ---------- Form card ---------- */
+
+form {
+  display: grid;
+  gap: 22px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 14px 44px 14px 16px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text);
+  background-color: var(--bg);
+  /* Custom chevron */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236f7a72' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+select:hover { border-color: var(--border); }
+
+select:focus-visible {
+  outline: none;
+  background-color: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* ---------- Buttons ---------- */
+
+button {
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 16px 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s, color 0.2s;
+}
+
+button[type="submit"] {
+  margin-top: 6px;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: var(--shadow-button);
+}
+
+button[type="submit"]:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+button:active { transform: translateY(0) scale(0.99); }
+
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 5px var(--accent);
+}
+
+button.secondary {
+  width: 100%;
+  color: var(--accent);
+  background: transparent;
+  border-color: var(--border);
+}
+
+button.secondary:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+/* ---------- Results ---------- */
+
+#results .intro { margin-bottom: 32px; }
+
+#pose-list {
+  list-style: none;
+  counter-reset: pose;
+  display: grid;
+  gap: 12px;
+  margin: 0 0 32px;
+  padding: 0;
+}
+
+#pose-list li {
+  counter-increment: pose;
+  position: relative;
+  padding: 18px 20px 18px 64px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+#pose-list li::before {
+  content: counter(pose);
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 50%;
+}
+
+/* Closing pose (Savasana) gets a quieter, softer card */
+#pose-list li:last-child {
+  background: var(--accent-soft);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+#pose-list li:last-child::before {
+  color: #fff;
+  background: var(--accent);
+}
+
+/* Pose picture, or a soft placeholder with the pose name until one is added */
+.pose-image {
+  margin-bottom: 14px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+.pose-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pose-placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0 16px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--faint);
+  border: 1px dashed var(--border);
+  border-radius: inherit;
+}
+
+#pose-list li:last-child .pose-image { background: var(--surface); }
+
+.pose-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pose-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.pose-minutes {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+}
+
+#pose-list li:last-child .pose-minutes { background: var(--surface); }
+
+.pose-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Small round "×" next to the minutes */
+button.remove-pose {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--faint);
+  background: transparent;
+  border-radius: 50%;
+}
+
+button.remove-pose:hover:not([aria-disabled="true"]) {
+  color: var(--text);
+  background: var(--bg);
+}
+
+button.remove-pose[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+button.remove-pose[aria-disabled="true"]:active { transform: none; }
+
+/* Shown under the list once the 3-pose minimum is reached */
+.min-note {
+  margin: -16px 0 28px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ---------- Undo toast ---------- */
+
+.undo {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: calc(100% - 32px);
+  padding: 10px 10px 10px 20px;
+  font-size: 0.95rem;
+  color: #fff;
+  background: var(--text);
+  border-radius: 999px;
+  box-shadow: 0 12px 32px -12px rgba(38, 48, 42, 0.5);
+  animation: toast-in 0.3s ease both;
+}
+
+/* Keeps the toast centered while it fades in */
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.undo span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.undo button {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--bg-glow);
+}
+
+.undo button:hover { background: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .undo { animation: none; }
+}
+
+.pose-sanskrit {
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--faint);
+}
+
+.pose-cue {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 480px) {
+  main { padding-top: 48px; }
+  form { padding: 22px; }
+  #pose-list li { padding: 16px 16px 16px 56px; }
+  #pose-list li::before { left: 16px; top: 16px; }
+}

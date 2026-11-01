@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Youga — Yoga, Your Way</title>
+  <!-- Fonts: Fraunces (headings) and Inter (text). Falls back to system fonts offline. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <!-- Screen 1: welcome and choices -->
+    <section id="welcome">
+      <p class="eyebrow">Personal practice generator</p>
+      <h1>Youga <span class="dash">—</span> <span class="tagline">Yoga, Your Way.</span></h1>
+      <p class="intro">Choose your practice and we'll put together a sequence for you.</p>
+
+      <form id="practice-form">
+        <label>
+          Experience level
+          <select name="level">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </label>
+
+        <label>
+          Practice duration
+          <select name="duration">
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45">45 minutes</option>
+          </select>
+        </label>
+
+        <label>
+          Goal
+          <select name="goal">
+            <option value="relaxation">Relaxation</option>
+            <option value="flexibility">Flexibility</option>
+            <option value="strength">Strength</option>
+            <option value="energy">Energy</option>
+          </select>
+        </label>
+
+        <button type="submit">Generate Practice</button>
+      </form>
+    </section>
+
+    <!-- Screen 2: the generated practice -->
+    <section id="results" hidden>
+      <p class="eyebrow">Youga</p>
+      <h2>Your practice</h2>
+      <p id="summary" class="intro"></p>
+      <ol id="pose-list"></ol>
+      <p id="min-note" class="min-note" hidden>A practice needs at least 3 poses, so no more can be removed.</p>
+      <button type="button" id="start-over" class="secondary">Start over</button>
+    </section>
+
+    <!-- Appears briefly after a pose is removed -->
+    <div id="undo" class="undo" role="status" hidden>
+      <span id="undo-text"></span>
+      <button type="button" id="undo-button">Undo</button>
+    </div>
+  </main>
+
+  <!-- Data first, then the logic that uses it -->
+  <script src="poses.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
