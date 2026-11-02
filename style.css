@@ -343,17 +343,32 @@ button.remove-pose:hover:not([aria-disabled="true"]) {
 
 button.remove-pose[aria-disabled="true"] {
   opacity: 0.35;
-  cursor: not-allowed;
+  cursor: help;
 }
 
 button.remove-pose[aria-disabled="true"]:active { transform: none; }
 
-/* Shown under the list once the 3-pose minimum is reached */
-.min-note {
-  margin: -16px 0 28px;
-  font-size: 0.9rem;
-  text-align: center;
-  color: var(--muted);
+/* Shown under a pose when its "×" is tapped at the 3-pose minimum */
+.pose-min-message {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--accent-soft);
+  border-radius: 10px;
+  /* Keeps it clear of the screen edges and the Undo toast when scrolled to */
+  scroll-margin: 24px 0 120px;
+  animation: message-in 0.2s ease both;
+}
+
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pose-min-message { animation: none; }
 }
 
 /* ---------- Undo toast ---------- */

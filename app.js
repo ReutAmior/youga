@@ -9,13 +9,16 @@ const MIN_POSES = 3;
 // How long the Undo option stays visible after removing a pose.
 const UNDO_SECONDS = 6;
 
+// How long the "can't remove" message stays under a pose.
+const MIN_MESSAGE_SECONDS = 4;
+const MIN_MESSAGE = `Keep at least ${MIN_POSES} poses so your practice still flows.`;
+
 const form = document.getElementById("practice-form");
 const welcome = document.getElementById("welcome");
 const results = document.getElementById("results");
 const summary = document.getElementById("summary");
 const poseList = document.getElementById("pose-list");
 const startOver = document.getElementById("start-over");
-const minNote = document.getElementById("min-note");
 const undoBar = document.getElementById("undo");
 const undoText = document.getElementById("undo-text");
 const undoButton = document.getElementById("undo-button");
@@ -25,6 +28,7 @@ let practice = { poses: [], duration: 0 };
 // The most recently removed pose and where it was, for Undo.
 let lastRemoved = null;
 let undoTimer = null;
+let minMessageTimer = null;
 
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -93,27 +97,46 @@ function render() {
       remove.type = "button";
       remove.className = "remove-pose";
       remove.textContent = "×";
-      // aria-disabled rather than disabled: browsers hide the hover text on
-      // truly disabled buttons. removePose() ignores the click at the minimum.
+      // aria-disabled rather than disabled so the tap still lands: at the
+      // minimum, removePose() explains why instead of removing.
       remove.setAttribute("aria-disabled", String(!canRemove));
-      remove.title = canRemove ? "Remove this pose" : `A practice needs at least ${MIN_POSES} poses`;
+      if (canRemove) remove.title = "Remove this pose";
       remove.setAttribute("aria-label", `Remove ${pose.name}`);
-      remove.addEventListener("click", () => removePose(index));
+      remove.addEventListener("click", () => removePose(index, item));
       item.querySelector(".pose-actions").appendChild(remove);
     }
 
     poseList.appendChild(item);
   });
-
-  minNote.hidden = canRemove;
 }
 
-function removePose(index) {
-  if (practice.poses.length <= MIN_POSES) return;
+function removePose(index, item) {
+  if (practice.poses.length <= MIN_POSES) {
+    showMinMessage(item);
+    return;
+  }
   const [pose] = practice.poses.splice(index, 1);
   lastRemoved = { pose, index };
   render();
   showUndo(pose.name);
+}
+
+// Explains, right under the pose that was tapped, why it can't be removed.
+// Only one message shows at a time.
+function showMinMessage(item) {
+  hideMinMessage();
+  const message = document.createElement("p");
+  message.className = "pose-min-message";
+  message.setAttribute("role", "status");
+  message.textContent = MIN_MESSAGE;
+  item.querySelector(".pose-head").after(message);
+  message.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  minMessageTimer = setTimeout(hideMinMessage, MIN_MESSAGE_SECONDS * 1000);
+}
+
+function hideMinMessage() {
+  clearTimeout(minMessageTimer);
+  poseList.querySelectorAll(".pose-min-message").forEach((el) => el.remove());
 }
 
 function showUndo(poseName) {
