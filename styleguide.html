@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Youga — Components</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap">
+  <!-- Uses the app's own stylesheet, so this page always shows the real components. -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Gallery-only layout. Nothing here is used by the app. */
+    main { max-width: 920px; padding-bottom: 80px; }
+    .sg-group { margin-top: 56px; }
+    .sg-group > h2 { font-size: 1.6rem; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    .sg-item { margin-top: 26px; }
+    .sg-item > h3 { margin: 0 0 2px; font-size: 1rem; }
+    .sg-item p.sg-desc { margin: 0 0 12px; font-size: 0.9rem; color: var(--muted); max-width: 70ch; }
+    .sg-item code { font-size: 0.8rem; background: var(--sand); padding: 1px 6px; border-radius: 6px; }
+    .sg-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .sg-frame { padding: 20px; border: 1px dashed var(--line); border-radius: 18px; background: var(--bg); }
+    .sg-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 200px)); gap: 12px; }
+    .sg-phone { max-width: 400px; }
+    .sg-static.toast, .sg-static.action-bar { position: static; transform: none; animation: none; }
+    .sg-static.action-bar { padding: 0; background: none; }
+    .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+    .sg-swatch { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); font-size: 0.78rem; }
+    .sg-swatch div { height: 54px; }
+    .sg-swatch span { display: block; padding: 8px 10px; }
+    @media (max-width: 640px) { .sg-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Internal · design system</p>
+  <h1><span class="logo"><span class="logo-you">You</span><span class="logo-ga">ga</span></span>
+    <span class="tagline">Components, all in one place</span></h1>
+  <p class="intro">Every building block of the app, drawn with the live <code>style.css</code>. Change a component there and it changes here and in the app. Names match docs/architecture.md.</p>
+
+  <!-- ===== Foundations ===== -->
+  <section class="sg-group">
+    <h2>Foundations</h2>
+
+    <div class="sg-item">
+      <h3>Colors</h3>
+      <p class="sg-desc">Tokens in <code>:root</code> at the top of style.css.</p>
+      <div class="sg-swatches">
+        <div class="sg-swatch"><div style="background:var(--terra)"></div><span><b>--terra</b><br>"You", primary</span></div>
+        <div class="sg-swatch"><div style="background:var(--terra-dark)"></div><span><b>--terra-dark</b><br>hover, exhale</span></div>
+        <div class="sg-swatch"><div style="background:var(--sage)"></div><span><b>--sage</b><br>"ga", progress</span></div>
+        <div class="sg-swatch"><div style="background:var(--sky)"></div><span><b>--sky</b><br>inhale</span></div>
+        <div class="sg-swatch"><div style="background:var(--ink)"></div><span><b>--ink</b><br>text, toast</span></div>
+        <div class="sg-swatch"><div style="background:var(--muted)"></div><span><b>--muted</b><br>secondary text</span></div>
+        <div class="sg-swatch"><div style="background:var(--bg)"></div><span><b>--bg</b><br>page</span></div>
+        <div class="sg-swatch"><div style="background:var(--sand)"></div><span><b>--sand</b><br>chips, next cue</span></div>
+        <div class="sg-swatch"><div style="background:var(--line)"></div><span><b>--line</b><br>borders</span></div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Type</h3>
+      <p class="sg-desc">Fraunces for headings and Sanskrit names, Inter for everything else.</p>
+      <div class="sg-frame">
+        <h2>Heading · Fraunces 600</h2>
+        <p class="sanskrit" style="margin:6px 0 10px">Sanskrit · Fraunces italic</p>
+        <p style="margin:0">Body · Inter 400. Cues, descriptions and labels.</p>
+        <p class="eyebrow" style="margin:10px 0 0">Eyebrow · Inter 600 caps</p>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Logo <code>.logo</code></h3>
+      <p class="sg-desc">Two-tone wordmark: "You" in terracotta, "ga" in sage. Large on Welcome, <code>.logo-small</code> on every other screen.</p>
+      <div class="sg-frame sg-row" style="gap:28px">
+        <span class="logo" style="font-size:3rem"><span class="logo-you">You</span><span class="logo-ga">ga</span></span>
+        <span class="logo logo-small"><span class="logo-you">You</span><span class="logo-ga">ga</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Buttons ===== -->
+  <section class="sg-group">
+    <h2>Buttons</h2>
+
+    <div class="sg-item">
+      <h3>Primary <code>.btn .btn-primary</code></h3>
+      <p class="sg-desc">The one main action on a screen: Generate practice, Let's go, Next pose, Finish.</p>
+      <div class="sg-frame sg-row">
+        <button class="btn btn-primary">Generate practice</button>
+        <button class="btn btn-primary">Let's go</button>
+        <button class="btn btn-primary">Next pose</button>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Secondary <code>.btn .btn-secondary</code></h3>
+      <p class="sg-desc">The way back or sideways: Change sequence, Previous, Back to start. Disabled on the first pose in Play.</p>
+      <div class="sg-frame sg-row">
+        <button class="btn btn-secondary">Change sequence</button>
+        <button class="btn btn-secondary">Previous</button>
+        <button class="btn btn-secondary" disabled>Previous (disabled)</button>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Text <code>.btn-text</code> · Remove <code>.btn-icon</code></h3>
+      <p class="sg-desc">Text button for low-emphasis actions (Exit). The round "×" removes a pose from an editable sub-sequence; it greys out at the 3-pose minimum.</p>
+      <div class="sg-frame sg-row" style="gap:24px">
+        <button class="btn-text">Exit</button>
+        <span style="position:relative;width:40px;height:40px;display:inline-block"><button class="btn-icon" style="top:4px;right:4px">×</button></span>
+        <span style="position:relative;width:40px;height:40px;display:inline-block"><button class="btn-icon" aria-disabled="true" style="top:4px;right:4px">×</button></span>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Action bar <code>.action-bar</code></h3>
+      <p class="sg-desc">Fixed to the bottom of the screen, always secondary on the left and primary on the right. Builder: Change sequence + Let's go. Play: Previous + Next pose.</p>
+      <div class="sg-frame sg-phone">
+        <div class="action-bar sg-static"><div class="action-bar-inner">
+          <button class="btn btn-secondary">Change sequence</button><button class="btn btn-primary">Let's go</button>
+        </div></div>
+        <div class="action-bar sg-static" style="margin-top:12px"><div class="action-bar-inner">
+          <button class="btn btn-secondary">Previous</button><button class="btn btn-primary">Next pose</button>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Labels and feedback ===== -->
+  <section class="sg-group">
+    <h2>Labels and feedback</h2>
+
+    <div class="sg-item">
+      <h3>Chips <code>.chip</code></h3>
+      <p class="sg-desc">Sequence facts under the sequence name on the builder. Level uses <code>.chip-sage</code>.</p>
+      <div class="sg-frame"><div class="chips" style="margin:0"><span class="chip">45 min</span><span class="chip chip-sage">Beginner</span><span class="chip">Energize</span></div></div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Breath badge <code>.breath</code></h3>
+      <p class="sg-desc">From the step's Breath and Hold fields in Airtable. Breath set → Inhale or Exhale (with breaths if Hold &gt; 1). No breath → the number of breaths. Small on builder cards, <code>.breath-lg</code> in Play.</p>
+      <div class="sg-frame sg-row">
+        <span class="breath breath-inhale">Inhale</span>
+        <span class="breath breath-exhale">Exhale</span>
+        <span class="breath breath-exhale">Exhale · 5 breaths</span>
+        <span class="breath breath-count">5 breaths</span>
+      </div>
+      <div class="sg-frame sg-row" style="margin-top:10px">
+        <span class="breath breath-lg breath-inhale">Inhale</span>
+        <span class="breath breath-lg breath-exhale">Exhale · 5 breaths</span>
+        <span class="breath breath-lg breath-count">20 breaths</span>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Toast <code>.toast</code></h3>
+      <p class="sg-desc">Appears for 6 seconds after a pose is removed. Undo puts the pose back in its place.</p>
+      <div class="sg-frame sg-row"><div class="toast sg-static"><span>Removed Happy baby</span><button>Undo</button></div></div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Empty states <code>.empty</code></h3>
+      <p class="sg-desc">A sub-sequence with no poses in Airtable yet, or one the user emptied.</p>
+      <div class="sg-frame" style="display:grid;gap:10px">
+        <div class="empty">No poses yet</div>
+        <div class="empty">You removed all poses from this part</div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Progress <code>.progress</code></h3>
+      <p class="sg-desc">Top of Play: how far through the practice, with the sub-sequence name and "4 of 13".</p>
+      <div class="sg-frame sg-phone">
+        <div class="progress" style="margin-top:0"><div style="width:31%"></div></div>
+        <div class="play-where"><span>Sun salutation 1</span><span>4 of 13</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Pose cards ===== -->
+  <section class="sg-group">
+    <h2>Pose cards</h2>
+
+    <div class="sg-item">
+      <h3>Builder pose card <code>.pose-card</code></h3>
+      <p class="sg-desc">One per pose on the builder, in a two-column <code>.pose-grid</code> under its sub-sequence heading. The "×" shows only when the sub-sequence is Editable = Yes in Airtable.</p>
+      <div class="sg-frame">
+        <div class="section-head" style="margin-top:0"><h3>Wind down</h3><span class="section-count">3 poses</span></div>
+        <div class="sg-cards">
+          <div class="card pose-card"><button class="btn-icon">×</button>
+            <div class="pose-art"><img src="images/poses/downward-facing-dog.svg" alt=""></div>
+            <div class="pose-card-body"><div class="pose-card-name">Editable, with picture</div><p class="sanskrit">Adho Mukha Svanasana</p><span class="breath breath-exhale">Exhale · 5 breaths</span></div></div>
+          <div class="card pose-card"><button class="btn-icon">×</button>
+            <div class="pose-art"><div class="pose-placeholder">Picture coming soon</div></div>
+            <div class="pose-card-body"><div class="pose-card-name">Editable, no picture</div><p class="sanskrit">Ananda Balasana</p><span class="breath breath-count">5 breaths</span></div></div>
+          <div class="card pose-card">
+            <div class="pose-art"><img src="images/poses/mountain-pose.svg" alt=""></div>
+            <div class="pose-card-body"><div class="pose-card-name">Fixed (not editable)</div><p class="sanskrit">Tadasana</p><span class="breath breath-inhale">Inhale</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <h3>Play pose card <code>.play-card</code></h3>
+      <p class="sg-desc">One pose at a time in Play: picture, English and Sanskrit names, large breath badge, cue into and out of the pose, and the transition to the next pose when the step has one. Missing cues show "Cue coming soon".</p>
+      <div class="sg-frame sg-phone">
+        <article class="card play-card" style="margin-top:0">
+          <div class="pose-art"><img src="images/poses/upward-salute.svg" alt=""></div>
+          <div class="play-body">
+            <h2 class="play-name">Upward Salute</h2>
+            <p class="sanskrit">Urdhva Hastasana</p>
+            <span class="breath breath-lg breath-inhale">Inhale</span>
+            <div class="cue"><h3>Into the pose</h3><p>From Mountain Pose, inhale and sweep your arms out and up overhead.</p></div>
+            <div class="cue"><h3>Out of the pose</h3><p class="cue-missing">Cue coming soon</p></div>
+            <div class="cue cue-next"><h3>Moving to the next pose</h3><p>Send your feet back and through plank bend your elbows.</p></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Form ===== -->
+  <section class="sg-group">
+    <h2>Form</h2>
+    <div class="sg-item">
+      <h3>Choice field <code>select</code> inside <code>.form-card</code></h3>
+      <p class="sg-desc">Welcome screen. The options must match the Level, Length and Goal values in Airtable.</p>
+      <div class="sg-frame sg-phone">
+        <div class="card form-card">
+          <label>Goal<select><option>Energize</option><option>Relax</option><option>Stretch</option><option>Relieve pain</option></select></label>
+          <button class="btn btn-primary">Generate practice</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

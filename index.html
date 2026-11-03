@@ -7,73 +7,121 @@
   <!-- Fonts: Fraunces (headings) and Inter (text). Falls back to system fonts offline. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
-    <!-- Screen 1: welcome and choices -->
-    <section id="welcome">
+    <!-- Screen 1: Welcome. The user picks level, duration and goal. -->
+    <section id="welcome" class="screen">
       <p class="eyebrow">Personal practice generator</p>
-      <h1>Youga <span class="dash">—</span> <span class="tagline">Yoga, Your Way.</span></h1>
+      <h1><span class="logo"><span class="logo-you">You</span><span class="logo-ga">ga</span></span>
+        <span class="tagline">Yoga, Your Way.</span></h1>
       <p class="intro">Choose your practice and we'll put together a sequence for you.</p>
 
-      <form id="practice-form">
+      <form id="practice-form" class="card form-card">
         <label>
           Experience level
           <select name="level">
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
           </select>
         </label>
-
         <label>
           Practice duration
-          <select name="duration">
+          <select name="minutes">
             <option value="15">15 minutes</option>
             <option value="30">30 minutes</option>
-            <option value="45">45 minutes</option>
+            <option value="45" selected>45 minutes</option>
           </select>
         </label>
-
         <label>
           Goal
           <select name="goal">
-            <option value="relaxation">Relaxation</option>
-            <option value="flexibility">Flexibility</option>
-            <option value="strength">Strength</option>
-            <option value="energy">Energy</option>
+            <option>Energize</option>
+            <option>Relax</option>
+            <option>Stretch</option>
+            <option>Relieve pain</option>
           </select>
         </label>
-
-        <button type="submit">Generate Practice</button>
+        <button type="submit" class="btn btn-primary">Generate practice</button>
+        <p id="load-error" class="form-error" hidden>We couldn't load the practices. Please refresh the page.</p>
       </form>
     </section>
 
-    <!-- Screen 2: the generated practice -->
-    <section id="results" hidden>
-      <p class="eyebrow">Youga</p>
-      <h2>Your practice</h2>
-      <p id="summary" class="intro"></p>
-      <ol id="pose-list"></ol>
+    <!-- Screen 2: Builder. Shows the practice by sub-sequence; editable parts can lose poses. -->
+    <section id="builder" class="screen" hidden>
+      <p class="eyebrow"><span class="logo logo-small"><span class="logo-you">You</span><span class="logo-ga">ga</span></span></p>
+      <h2 id="sequence-name"></h2>
+      <div id="sequence-meta" class="chips"></div>
+      <p id="match-note" class="match-note" hidden></p>
+      <div id="sections"></div>
       <p id="min-note" class="min-note" hidden>A practice needs at least 3 poses, so no more can be removed.</p>
-      <button type="button" id="start-over" class="secondary">Start over</button>
     </section>
 
-    <footer class="site-footer">
+    <!-- Screen 2b: No vetted sequence matches the choices yet. -->
+    <section id="no-match" class="screen" hidden>
+      <p class="eyebrow"><span class="logo logo-small"><span class="logo-you">You</span><span class="logo-ga">ga</span></span></p>
+      <h2>This practice is on its way</h2>
+      <p id="no-match-text" class="intro"></p>
+      <button type="button" class="btn btn-secondary btn-block" data-action="change">Change sequence</button>
+    </section>
+
+    <!-- Screen 3: Play. One pose at a time with breath and cues. -->
+    <section id="play" class="screen" hidden>
+      <div class="play-top">
+        <span class="logo logo-small"><span class="logo-you">You</span><span class="logo-ga">ga</span></span>
+        <button type="button" id="exit" class="btn-text">Exit</button>
+      </div>
+      <div class="progress" aria-hidden="true"><div id="progress-fill"></div></div>
+      <div class="play-where"><span id="play-section"></span><span id="play-counter"></span></div>
+
+      <article id="play-card" class="card play-card">
+        <div id="play-image" class="pose-art"></div>
+        <div class="play-body">
+          <h2 id="play-name" class="play-name"></h2>
+          <p id="play-sanskrit" class="sanskrit"></p>
+          <div id="play-breath"></div>
+          <div class="cue"><h3>Into the pose</h3><p id="play-in"></p></div>
+          <div class="cue"><h3>Out of the pose</h3><p id="play-out"></p></div>
+          <div id="play-next" class="cue cue-next" hidden><h3>Moving to the next pose</h3><p id="play-next-text"></p></div>
+        </div>
+      </article>
+
+      <div id="play-done" class="play-done" hidden>
+        <span class="logo"><span class="logo-you">You</span><span class="logo-ga">ga</span></span>
+        <h2>Practice complete</h2>
+        <p class="sanskrit">Namaste</p>
+        <button type="button" class="btn btn-secondary" data-action="change">Back to start</button>
+      </div>
+    </section>
+
+    <footer id="footer" class="site-footer">
       Built by Reut Amior · <a href="https://github.com/ReutAmior/youga/tree/main/decisions" target="_blank" rel="noopener">How it's built</a>
     </footer>
-
-    <!-- Appears briefly after a pose is removed -->
-    <div id="undo" class="undo" role="status" hidden>
-      <span id="undo-text"></span>
-      <button type="button" id="undo-button">Undo</button>
-    </div>
   </main>
 
-  <!-- Data first, then the logic that uses it -->
-  <script src="poses.js"></script>
+  <!-- Bottom action bars: one per screen that needs it -->
+  <div id="builder-bar" class="action-bar" hidden>
+    <div class="action-bar-inner">
+      <button type="button" class="btn btn-secondary" data-action="change">Change sequence</button>
+      <button type="button" id="lets-go" class="btn btn-primary">Let's go</button>
+    </div>
+  </div>
+  <div id="play-bar" class="action-bar" hidden>
+    <div class="action-bar-inner">
+      <button type="button" id="prev" class="btn btn-secondary">Previous</button>
+      <button type="button" id="next" class="btn btn-primary">Next pose</button>
+    </div>
+  </div>
+
+  <!-- Appears briefly after a pose is removed -->
+  <div id="undo" class="toast" role="status" hidden>
+    <span id="undo-text"></span>
+    <button type="button" id="undo-button">Undo</button>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
