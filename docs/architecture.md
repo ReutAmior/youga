@@ -212,14 +212,12 @@ Shape of `data/content.json`:
 
 - **Only one vetted sequence** (Classic beginner class: Beginner · 45 min · Energize). Every other choice shows No match, and 15 or 30 minutes falls back to the 45-minute class.
 - **Three empty sub-sequences** in that class: Standing series, Seating Series, Reclined poses. It plays 14 poses, far less than 45 minutes.
-- **Missing cues:** Happy baby (no cue in or out), Warrior 1 (no cues, no default hold).
-- **Typos still in Airtable:**
-  - Downward-Facing Dog cue: "Place **you** head" should be "your".
-  - Warrior 2 cue: "From a wide **stand**" should be "stance".
-  - Sun salutation 2, step 7 transition: "elbows **hight**" should be "height".
-- **Vetted poses:** only 3 of 49 poses are ticked Vetted (Upward-facing dog, Downward-Facing Dog, Warrior 2). The export doesn't filter by pose Vetted yet.
 - **Pictures:** 3 of 49 poses have one.
 - **Changes from the previous live version:** the goal options changed (Relaxation, Flexibility, Strength, Energy became Energize, Relax, Stretch, Relieve pain); pose time is in breaths instead of minutes; the "Savasana can't be removed" rule is replaced by Editable sub-sequences; `poses.js` is gone.
+
+### Open content issues
+- [ ] **Missing cues:** Happy baby has no cue in or out; Warrior 1 has no cues and no default hold.
+- [ ] **Vetting:** only 3 of 49 poses are ticked Vetted (Upward-facing dog, Downward-Facing Dog, Warrior 2). The export doesn't filter by pose Vetted yet.
 
 ## 9. Open questions
 - Approve decision 008 (Airtable as the content source for now)?
