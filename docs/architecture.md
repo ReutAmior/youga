@@ -204,7 +204,7 @@ Shape of `data/content.json`:
 
 ## 7. How this relates to the decisions
 
-- **004 (Supabase)** and **005 (pose library in Supabase):** still the plan for user accounts, history and the phase 2 pose library. For now, content is authored in Airtable and shipped as JSON. This is proposed in **008**, which needs your call.
+- **004 (Supabase)** and **005 (pose library in Supabase):** still the plan for user accounts, history and the phase 2 pose library. Content is authored in Airtable and shipped as JSON, per **008** (Accepted 2026-11-03).
 - **006 (Vercel):** unchanged. Every push to main deploys, so use a branch and check its preview link first.
 - **007 (images):** the image slot and placeholder are kept. Three illustrations exist (Mountain Pose, Upward Salute, Downward-Facing Dog beginner); the style is still being reviewed.
 
@@ -220,7 +220,6 @@ Shape of `data/content.json`:
 - [ ] **Vetting:** only 3 of 49 poses are ticked Vetted (Upward-facing dog, Downward-Facing Dog, Warrior 2). The export doesn't filter by pose Vetted yet.
 
 ## 9. Open questions
-- Approve decision 008 (Airtable as the content source for now)?
 - Should 15- and 30-minute choices fall back to a longer class, or show No match?
 - When does Play get timing, voice cues and chimes?
 - Should the export filter out poses that aren't Vetted?

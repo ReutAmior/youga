@@ -1,6 +1,6 @@
 # 008 — Content authoring: Airtable, exported to JSON
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-03
 
 ## Context

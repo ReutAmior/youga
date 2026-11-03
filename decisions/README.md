@@ -20,7 +20,7 @@ Every meaningful product or technical decision gets a short record here, so we c
 | [005](005-generation-logic.md) | Generation: lookup in phase 1, constrained LLM in phase 2 | Accepted | 2026-11-01 |
 | [006](006-hosting-and-platform.md) | Hosting & platform: Vercel, web app first, PWA later | Accepted | 2026-11-01 |
 | [007](007-integrations.md) | Integrations by phase; pose images deferred behind a placeholder | Accepted | 2026-11-01 |
-| [008](008-content-in-airtable.md) | Content authoring: Airtable, exported to JSON | Proposed | 2026-11-03 |
+| [008](008-content-in-airtable.md) | Content authoring: Airtable, exported to JSON | Accepted | 2026-11-03 |
 
 ## Technical reference
 
