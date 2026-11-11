@@ -164,7 +164,7 @@ h1 .tagline {
   cursor: pointer;
 }
 .btn-icon:hover:not([aria-disabled="true"]) { color: var(--terra-dark); }
-.btn-icon[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; }
+.btn-icon[aria-disabled="true"] { opacity: 0.35; cursor: help; }
 
 /* Form fields */
 .form-card { display: grid; gap: 22px; padding: 28px; }
@@ -209,11 +209,13 @@ select:hover { border-color: var(--line); }
 /* Pose art: the picture slot, or a placeholder until a picture exists. */
 .pose-art { background: var(--bg); display: grid; place-items: center; overflow: hidden; }
 .pose-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* Placeholder: a calm sun-over-hills picture with "Pose picture is coming soon". */
 .pose-placeholder {
-  margin: 12px; padding: 10px 12px; text-align: center;
-  font-size: 0.75rem; font-weight: 600; color: var(--faint);
-  border: 1.5px dashed var(--line); border-radius: 12px;
+  display: grid; justify-items: center; gap: 6px;
+  width: 100%; padding: 12px; text-align: center;
+  font-size: 0.75rem; font-weight: 600; color: var(--muted);
 }
+.pose-placeholder img { width: 78%; max-width: 260px; height: auto; }
 
 /* Section header: one per sub-sequence on the builder. */
 .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 30px 0 12px; }
@@ -236,8 +238,22 @@ select:hover { border-color: var(--line); }
   background: var(--surface); border: 1.5px dashed var(--line); border-radius: var(--radius-md);
 }
 
-.match-note, .min-note { font-size: 0.9rem; color: var(--muted); }
-.min-note { text-align: center; margin: 20px 0 0; }
+.match-note { font-size: 0.9rem; color: var(--muted); }
+
+/* Pose message: appears under a pose when its "×" can't remove it. */
+.pose-message {
+  margin: 10px 0 0; padding: 8px 10px;
+  font-size: 0.8rem; line-height: 1.4; color: var(--ink);
+  background: var(--terra-soft); border-radius: 10px;
+  /* Keeps it clear of the action bar and Undo toast when scrolled to. */
+  scroll-margin: 24px 0 140px;
+  animation: message-in 0.2s ease both;
+}
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .pose-message { animation: none; } }
 
 /* Action bar: fixed to the bottom of the screen, holds a screen's two main buttons. */
 .action-bar {
@@ -280,6 +296,7 @@ select:hover { border-color: var(--line); }
 .play-card { margin-top: 16px; overflow: hidden; }
 .play-card .pose-art { aspect-ratio: 4 / 3; }
 .play-card .pose-placeholder { font-size: 0.85rem; padding: 14px 18px; }
+.play-card .pose-placeholder img { width: 60%; }
 .play-body { padding: 20px 22px 24px; }
 .play-name { font-size: 1.9rem; }
 .play-card .sanskrit { font-size: 1.05rem; margin: 4px 0 16px; }

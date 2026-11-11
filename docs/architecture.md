@@ -2,7 +2,7 @@
 
 Internal reference for how Youga is built: its screens, its components, and how content gets from Airtable to the user. Update it in the same change as the code it describes.
 
-- **Last updated:** 2026-11-03
+- **Last updated:** 2026-11-11
 - **Shared copy:** a Claude doc with the same content (https://claude.ai/artifact/PPQpgzZDW8BSk8PkU79nrm). This file is the source of truth; update both together.
 - **Live app:** https://youga-ten.vercel.app/
 - **Component gallery:** `styleguide.html` (open it from the deployed site at `/styleguide.html`)
@@ -48,7 +48,7 @@ All screens live in one page (`index.html`); `app.js` shows one `<section>` at a
 |---|---|---|
 | Experience level | Beginner, Intermediate, Advanced | Sequences → Level |
 | Practice duration | 15, 30, 45 minutes (default 45) | Sequences → Length (minutes) |
-| Goal | Energize, Relax, Stretch, Relieve pain | Sequences → Goal |
+| Goal | Energize, Relax, Stretch, Strength, Relieve pain | Sequences → Goal |
 
 - **Error state:** if `data/content.json` can't load, a line under the button asks the user to refresh.
 
@@ -61,12 +61,12 @@ All screens live in one page (`index.html`); `app.js` shows one `<section>` at a
   - a two-column grid of **builder pose cards** under each heading
   - **empty state** "No poses yet" for a sub-sequence with no steps in Airtable
   - **empty state** "You removed all poses from this part" when the user removes every pose in a sub-sequence
-  - the 3-pose minimum note when it applies
   - **action bar:** Change sequence · Let's go
   - **toast** with Undo after a removal
 - **Rules:**
-  - The "×" appears only on poses in sub-sequences where **Editable = Yes**.
-  - A practice can't drop below **3 poses** (`MIN_POSES` in app.js). At the minimum, every "×" greys out and the note appears.
+  - Every pose card has an "×", but it removes the pose only in sub-sequences where **Editable = Yes**. On other poses it is greyed out, and a tap shows "This pose is important to your practice, so it can't be deleted." right under that pose (`PROTECTED_MESSAGE`).
+  - A practice can't drop below **3 poses** (`MIN_POSES` in app.js). At the minimum, every "×" greys out and a tap shows "Keep at least 3 poses so your practice still flows." under that pose (`MIN_MESSAGE`).
+  - Only one pose message shows at a time; it disappears after **4 seconds** (`MESSAGE_SECONDS`).
   - **Undo** restores the most recent removal to its original place. The toast stays for **6 seconds** (`UNDO_SECONDS`).
   - Removals live only in memory. Change sequence or a page refresh resets them.
 
@@ -108,14 +108,15 @@ Type: **Fraunces** (headings, Sanskrit names, logo) and **Inter** (everything el
 | Primary button | `.btn .btn-primary` | Generate practice, Let's go, Next pose / Finish | one per screen |
 | Secondary button | `.btn .btn-secondary` | Change sequence, Previous, Back to start | Previous is disabled on the first pose |
 | Text button | `.btn-text` | Exit (Play) | low emphasis |
-| Remove button | `.btn-icon` | builder pose cards in editable sub-sequences | greys out (`aria-disabled`) at the 3-pose minimum |
+| Remove button | `.btn-icon` | every builder pose card | greyed out (`aria-disabled`) on protected poses and at the 3-pose minimum; the tap still lands and shows a pose message |
+| Pose message | `.pose-message` | builder pose card | why a pose can't be removed, under the tapped pose, 4 s |
 | Action bar | `.action-bar` | Builder, Play | fixed bottom; secondary left, primary right |
 | Chip | `.chip`, `.chip-sage` | Builder header | minutes, level (sage), goal |
 | Breath badge | `.breath` + `-inhale` / `-exhale` / `-count`, `.breath-lg` | pose cards, play card | see 5.4 |
 | Section heading | `.section-head` | Builder | sub-sequence name + count |
-| Builder pose card | `.pose-card` in `.pose-grid` | Builder | picture, names, breath, optional "×" |
+| Builder pose card | `.pose-card` in `.pose-grid` | Builder | picture, names, breath, "×" |
 | Play pose card | `.play-card` | Play | picture, names, breath, cues, transition |
-| Pose picture | `.pose-art`, `.pose-placeholder` | both cards | placeholder "Picture coming soon" when no image |
+| Pose picture | `.pose-art`, `.pose-placeholder` | both cards | calm placeholder picture (`images/pose-placeholder.svg`) with "Pose picture is coming soon" when no image; never blocks a pose |
 | Empty state | `.empty` | Builder | no poses yet / all removed |
 | Toast | `.toast` | Builder | "Removed X · Undo", 6 s |
 | Progress | `.progress` | Play | fills with each pose |
@@ -126,7 +127,7 @@ Type: **Fraunces** (headings, Sanskrit names, logo) and **Inter** (everything el
 | Screen | Left (secondary) | Right (primary) | Other |
 |---|---|---|---|
 | Welcome | — | Generate practice | |
-| Builder | Change sequence | Let's go | "×" on editable poses, Undo in the toast |
+| Builder | Change sequence | Let's go | "×" on every pose, Undo in the toast |
 | No match | Change sequence | — | |
 | Play | Previous | Next pose / Finish | Exit (top right) |
 | Done | Back to start | — | |
@@ -208,12 +209,12 @@ Shape of `data/content.json`:
 - **006 (Vercel):** unchanged. Every push to main deploys, so use a branch and check its preview link first.
 - **007 (images):** the image slot and placeholder are kept. Three illustrations exist (Mountain Pose, Upward Salute, Downward-Facing Dog beginner); the style is still being reviewed.
 
-## 8. Known gaps and content checks (as of 2026-11-03)
+## 8. Known gaps and content checks (as of 2026-11-11)
 
-- **Only one vetted sequence** (Classic beginner class: Beginner · 45 min · Energize). Every other choice shows No match, and 15 or 30 minutes falls back to the 45-minute class.
+- **Only one vetted sequence** (Energize · Beginner · 45 min). Every other choice shows No match, and 15 or 30 minutes falls back to the 45-minute class.
 - **Three empty sub-sequences** in that class: Standing series, Seating Series, Reclined poses. It plays 14 poses, far less than 45 minutes.
 - **Pictures:** 3 of 49 poses have one.
-- **Changes from the previous live version:** the goal options changed (Relaxation, Flexibility, Strength, Energy became Energize, Relax, Stretch, Relieve pain); pose time is in breaths instead of minutes; the "Savasana can't be removed" rule is replaced by Editable sub-sequences; `poses.js` is gone.
+- **Changes from the previous live version:** the goal options changed (Relaxation, Flexibility, Strength, Energy became Energize, Relax, Stretch, Strength, Relieve pain); pose time is in breaths instead of minutes; the "Savasana can't be removed" rule is replaced by Editable sub-sequences; `poses.js` is gone.
 
 ### Open content issues
 - [ ] **Missing cues:** Happy baby has no cue in or out; Warrior 1 has no cues and no default hold.

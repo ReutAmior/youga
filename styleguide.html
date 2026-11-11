@@ -105,7 +105,7 @@
 
     <div class="sg-item">
       <h3>Text <code>.btn-text</code> · Remove <code>.btn-icon</code></h3>
-      <p class="sg-desc">Text button for low-emphasis actions (Exit). The round "×" removes a pose from an editable sub-sequence; it greys out at the 3-pose minimum.</p>
+      <p class="sg-desc">Text button for low-emphasis actions (Exit). The round "×" removes a pose from an editable sub-sequence. It is greyed out on protected poses and at the 3-pose minimum; tapping it then shows a pose message instead.</p>
       <div class="sg-frame sg-row" style="gap:24px">
         <button class="btn-text">Exit</button>
         <span style="position:relative;width:40px;height:40px;display:inline-block"><button class="btn-icon" style="top:4px;right:4px">×</button></span>
@@ -184,7 +184,7 @@
 
     <div class="sg-item">
       <h3>Builder pose card <code>.pose-card</code></h3>
-      <p class="sg-desc">One per pose on the builder, in a two-column <code>.pose-grid</code> under its sub-sequence heading. The "×" shows only when the sub-sequence is Editable = Yes in Airtable.</p>
+      <p class="sg-desc">One per pose on the builder, in a two-column <code>.pose-grid</code> under its sub-sequence heading. Every card has an "×". It removes the pose only when the sub-sequence is Editable = Yes in Airtable; otherwise it is greyed out and shows the pose message below.</p>
       <div class="sg-frame">
         <div class="section-head" style="margin-top:0"><h3>Wind down</h3><span class="section-count">3 poses</span></div>
         <div class="sg-cards">
@@ -192,11 +192,11 @@
             <div class="pose-art"><img src="images/poses/downward-facing-dog.svg" alt=""></div>
             <div class="pose-card-body"><div class="pose-card-name">Editable, with picture</div><p class="sanskrit">Adho Mukha Svanasana</p><span class="breath breath-exhale">Exhale · 5 breaths</span></div></div>
           <div class="card pose-card"><button class="btn-icon">×</button>
-            <div class="pose-art"><div class="pose-placeholder">Picture coming soon</div></div>
+            <div class="pose-art"><div class="pose-placeholder"><img src="images/pose-placeholder.svg" alt=""><span>Pose picture is coming soon</span></div></div>
             <div class="pose-card-body"><div class="pose-card-name">Editable, no picture</div><p class="sanskrit">Ananda Balasana</p><span class="breath breath-count">5 breaths</span></div></div>
-          <div class="card pose-card">
+          <div class="card pose-card"><button class="btn-icon" aria-disabled="true">×</button>
             <div class="pose-art"><img src="images/poses/mountain-pose.svg" alt=""></div>
-            <div class="pose-card-body"><div class="pose-card-name">Fixed (not editable)</div><p class="sanskrit">Tadasana</p><span class="breath breath-inhale">Inhale</span></div></div>
+            <div class="pose-card-body"><div class="pose-card-name">Protected, after a tap</div><p class="sanskrit">Tadasana</p><span class="breath breath-inhale">Inhale</span><p class="pose-message" style="animation:none">This pose is important to your practice, so it can't be deleted.</p></div></div>
         </div>
       </div>
     </div>
@@ -228,7 +228,7 @@
       <p class="sg-desc">Welcome screen. The options must match the Level, Length and Goal values in Airtable.</p>
       <div class="sg-frame sg-phone">
         <div class="card form-card">
-          <label>Goal<select><option>Energize</option><option>Relax</option><option>Stretch</option><option>Relieve pain</option></select></label>
+          <label>Goal<select><option>Energize</option><option>Relax</option><option>Stretch</option><option>Strength</option><option>Relieve pain</option></select></label>
           <button class="btn btn-primary">Generate practice</button>
         </div>
       </div>

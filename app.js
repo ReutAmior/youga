@@ -9,6 +9,15 @@
 const MIN_POSES = 3;
 // How long the Undo option stays visible after removing a pose.
 const UNDO_SECONDS = 6;
+// How long the "can't remove" message stays under a pose.
+const MESSAGE_SECONDS = 4;
+// Shown under a pose from a part of the practice that can't be edited.
+const PROTECTED_MESSAGE = "This pose is important to your practice, so it can't be deleted.";
+// Shown under a pose when the practice is already at the minimum.
+const MIN_MESSAGE = `Keep at least ${MIN_POSES} poses so your practice still flows.`;
+// Shown in the picture slot until a pose has its own picture.
+const PLACEHOLDER_IMAGE = "images/pose-placeholder.svg";
+const PLACEHOLDER_TEXT = "Pose picture is coming soon";
 
 // ---------- State ----------
 
@@ -16,6 +25,7 @@ let content = null;          // { sequences, poses } from data/content.json
 let practice = null;         // { sequence, removed: Set of "section:step" keys }
 let lastRemoved = null;      // key of the most recently removed step, for Undo
 let undoTimer = null;
+let messageTimer = null;
 let playSteps = [];          // the steps left after removals, flattened for Play
 let playIndex = 0;
 
@@ -73,7 +83,8 @@ function breathBadge(step, large) {
   return el("span", `breath breath-${kind}${large ? " breath-lg" : ""}`, label);
 }
 
-// The pose picture, or a placeholder until a picture exists.
+// The pose picture, or a calm placeholder until a picture exists.
+// A missing picture never blocks a pose from showing.
 function poseArt(pose) {
   const wrap = el("div", "pose-art");
   if (pose.image) {
@@ -83,7 +94,13 @@ function poseArt(pose) {
     img.loading = "lazy";
     wrap.appendChild(img);
   } else {
-    wrap.appendChild(el("div", "pose-placeholder", "Picture coming soon"));
+    const placeholder = el("div", "pose-placeholder");
+    const art = el("img");
+    art.src = PLACEHOLDER_IMAGE;
+    art.alt = "";
+    placeholder.appendChild(art);
+    placeholder.appendChild(el("span", null, PLACEHOLDER_TEXT));
+    wrap.appendChild(placeholder);
   }
   return wrap;
 }
@@ -132,18 +149,23 @@ function renderBuilder() {
     visible.forEach(({ step, k }) => {
       const pose = content.poses[step.pose];
       const card = el("div", "card pose-card");
-      if (section.editable) {
-        const remove = el("button", "btn-icon", "×");
-        remove.type = "button";
-        remove.setAttribute("aria-label", `Remove ${pose.name}`);
-        // aria-disabled rather than disabled, so the hover text still shows.
-        remove.setAttribute("aria-disabled", String(!canRemove));
-        remove.title = canRemove ? "Remove this pose" : `A practice needs at least ${MIN_POSES} poses`;
-        remove.addEventListener("click", () => removePose(si, k));
-        card.appendChild(remove);
-      }
-      card.appendChild(poseArt(pose));
       const body = el("div", "pose-card-body");
+      // Every pose gets an "×". On a protected pose, or at the minimum, it is
+      // greyed out (aria-disabled, so the tap still lands) and explains why
+      // right under the pose instead of removing it.
+      const allowed = section.editable && canRemove;
+      const remove = el("button", "btn-icon", "×");
+      remove.type = "button";
+      remove.setAttribute("aria-label", `Remove ${pose.name}`);
+      remove.setAttribute("aria-disabled", String(!allowed));
+      if (allowed) remove.title = "Remove this pose";
+      remove.addEventListener("click", () => {
+        if (!section.editable) showPoseMessage(body, PROTECTED_MESSAGE);
+        else if (!canRemove) showPoseMessage(body, MIN_MESSAGE);
+        else removePose(si, k);
+      });
+      card.appendChild(remove);
+      card.appendChild(poseArt(pose));
       body.appendChild(el("div", "pose-card-name", pose.name));
       if (pose.sanskrit) body.appendChild(el("p", "sanskrit", pose.sanskrit));
       body.appendChild(breathBadge(step, false));
@@ -152,8 +174,22 @@ function renderBuilder() {
     });
     container.appendChild(grid);
   });
+}
 
-  $("min-note").hidden = canRemove;
+// Explains, right under the pose that was tapped, why it can't be removed.
+// Only one message shows at a time.
+function showPoseMessage(body, text) {
+  hidePoseMessage();
+  const message = el("p", "pose-message", text);
+  message.setAttribute("role", "status");
+  body.appendChild(message);
+  message.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  messageTimer = setTimeout(hidePoseMessage, MESSAGE_SECONDS * 1000);
+}
+
+function hidePoseMessage() {
+  clearTimeout(messageTimer);
+  document.querySelectorAll(".pose-message").forEach((node) => node.remove());
 }
 
 function removePose(sectionIndex, stepIndex) {

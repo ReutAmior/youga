@@ -1,10 +1,10 @@
 {
   "_note": "Generated from the Youga Content Airtable base. Do not edit by hand; edit Airtable and re-export (see docs/architecture.md).",
-  "exportedAt": "2026-11-03",
+  "exportedAt": "2026-11-11",
   "sequences": [
     {
-      "id": "recqU7ndGhETKbuqu",
-      "name": "Classic beginner class",
+      "id": "recKHEvsCsAEeMFrO",
+      "name": "Energize · Beginner · 45 min",
       "level": "Beginner",
       "goal": "Energize",
       "minutes": 45,
