@@ -1,38 +1,48 @@
-/* Youga — minimal, calming styling */
+/* Youga styles.
+   Structure: 1. Design tokens  2. Base  3. Brand  4. Components  5. Screens.
+   Every component listed in docs/architecture.md has a section here and an
+   example in styleguide.html. Change a token once and it updates everywhere. */
+
+/* ---------- 1. Design tokens ---------- */
 
 :root {
-  /* Colors */
-  --bg: #f5f2ec;
-  --bg-glow: #e7eee5;
-  --surface: #fffdf9;
-  --text: #26302a;
-  --muted: #6f7a72;
-  --faint: #a3aca5;
-  --border: #e6e1d8;
-  --accent: #557a5f;
-  --accent-hover: #476a50;
-  --accent-soft: #e8f0e9;
+  /* Color */
+  --bg: #fbf8f3;            /* page background, cream */
+  --surface: #ffffff;       /* cards */
+  --sand: #f3ece1;          /* soft fills: chips, next-pose cue */
+  --ink: #3b3340;           /* main text */
+  --muted: #7a7178;         /* secondary text */
+  --faint: #a89fa5;         /* placeholders */
+  --line: #ece5da;          /* borders */
+  --terra: #d9775b;         /* brand "You", primary buttons */
+  --terra-dark: #b95e44;    /* primary hover, exhale */
+  --terra-soft: #f7e6df;    /* exhale badge fill */
+  --sage: #5e8f86;          /* brand "ga", progress, breath counts */
+  --sage-soft: #e4efec;     /* breath count badge fill */
+  --sky: #3e7e90;           /* inhale */
+  --sky-soft: #e6f1f4;      /* inhale badge fill */
 
   /* Type */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Shape and depth */
-  --radius-lg: 20px;
-  --radius-md: 14px;
-  --shadow-card: 0 1px 2px rgba(38, 48, 42, 0.04), 0 8px 24px -12px rgba(38, 48, 42, 0.12);
-  --shadow-button: 0 6px 16px -8px rgba(85, 122, 95, 0.7);
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px rgba(59, 51, 64, 0.04), 0 8px 24px -14px rgba(59, 51, 64, 0.14);
+  --shadow-button: 0 6px 16px -8px rgba(217, 119, 91, 0.7);
 }
+
+/* ---------- 2. Base ---------- */
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(1200px 600px at 50% -10%, var(--bg-glow), transparent 70%),
-    var(--bg);
-  color: var(--text);
+  background: var(--bg);
+  color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.55;
@@ -40,15 +50,14 @@ body {
 }
 
 main {
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
-  padding: 72px 20px 64px;
+  padding: 64px 20px 140px;
 }
 
 [hidden] { display: none !important; }
 
-/* Gentle fade when a screen appears */
-section { animation: fade-in 0.45s ease both; }
+.screen { animation: fade-in 0.4s ease both; }
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(6px); }
@@ -56,11 +65,19 @@ section { animation: fade-in 0.45s ease both; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  section { animation: none; }
+  .screen, .toast { animation: none; }
   * { transition: none !important; }
 }
 
-/* ---------- Typography ---------- */
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h1 { font-size: clamp(2.6rem, 9vw, 3.4rem); line-height: 1.02; }
+h2 { font-size: clamp(1.8rem, 6vw, 2.2rem); line-height: 1.12; }
 
 .eyebrow {
   margin: 0 0 14px;
@@ -68,375 +85,243 @@ section { animation: fade-in 0.45s ease both; }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
-}
-
-h1, h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  margin: 0;
-}
-
-h1 {
-  font-size: clamp(2.4rem, 8vw, 3.25rem);
-  line-height: 1.05;
-}
-
-/* Puts the tagline on its own line under "Youga" */
-h1 .dash { display: none; }
-
-h1 .tagline {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.55em;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-
-h2 {
-  font-size: clamp(1.9rem, 6vw, 2.4rem);
-  line-height: 1.1;
+  color: var(--sage);
 }
 
 .intro {
-  margin: 16px 0 36px;
+  margin: 16px 0 32px;
   max-width: 38ch;
   font-size: 1.05rem;
   color: var(--muted);
 }
 
-/* ---------- Form card ---------- */
+/* ---------- 3. Brand ---------- */
 
-form {
-  display: grid;
-  gap: 22px;
-  padding: 28px;
+/* Two-tone wordmark: "You" highlighted in terracotta, "ga" in sage. */
+.logo { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+.logo-you { color: var(--terra); }
+.logo-ga { color: var(--sage); }
+.logo-small { font-size: 1.35rem; letter-spacing: 0; text-transform: none; }
+
+h1 .tagline {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.5em;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* ---------- 4. Components ---------- */
+
+/* Card: the white surface used by the form, pose cards and the play card. */
+.card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
 }
 
-label {
-  display: grid;
-  gap: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-  padding: 14px 44px 14px 16px;
-  font: inherit;
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--text);
-  background-color: var(--bg);
-  /* Custom chevron */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236f7a72' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  border: 1px solid transparent;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
-}
-
-select:hover { border-color: var(--border); }
-
-select:focus-visible {
-  outline: none;
-  background-color: var(--surface);
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
-}
-
-/* ---------- Buttons ---------- */
-
-button {
+/* Buttons. Primary = the one main action on a screen. Secondary = the way back.
+   Text = low-emphasis actions such as Exit. */
+.btn {
   font: inherit;
   font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  padding: 16px 24px;
-  border: 1px solid transparent;
-  border-radius: 999px;
+  padding: 15px 22px;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s, color 0.2s;
-}
-
-button[type="submit"] {
-  margin-top: 6px;
-  color: #fff;
-  background: var(--accent);
-  box-shadow: var(--shadow-button);
-}
-
-button[type="submit"]:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-}
-
-button:active { transform: translateY(0) scale(0.99); }
-
-button:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 5px var(--accent);
-}
-
-button.secondary {
-  width: 100%;
-  color: var(--accent);
-  background: transparent;
-  border-color: var(--border);
-}
-
-button.secondary:hover {
-  background: var(--surface);
-  border-color: var(--accent);
-}
-
-/* ---------- Results ---------- */
-
-#results .intro { margin-bottom: 32px; }
-
-#pose-list {
-  list-style: none;
-  counter-reset: pose;
-  display: grid;
-  gap: 12px;
-  margin: 0 0 32px;
-  padding: 0;
-}
-
-#pose-list li {
-  counter-increment: pose;
-  position: relative;
-  padding: 18px 20px 18px 64px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-}
-
-#pose-list li::before {
-  content: counter(pose);
-  position: absolute;
-  left: 20px;
-  top: 18px;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-radius: 50%;
-}
-
-/* Closing pose (Savasana) gets a quieter, softer card */
-#pose-list li:last-child {
-  background: var(--accent-soft);
-  border-color: transparent;
-  box-shadow: none;
-}
-
-#pose-list li:last-child::before {
-  color: #fff;
-  background: var(--accent);
-}
-
-/* Pose picture, or a soft placeholder with the pose name until one is added */
-.pose-image {
-  margin-bottom: 14px;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 10px;
-  background: var(--bg);
-}
-
-.pose-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.pose-placeholder {
-  height: 100%;
-  display: grid;
-  place-items: center;
-  padding: 0 16px;
-  text-align: center;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--faint);
-  border: 1px dashed var(--border);
-  border-radius: inherit;
-}
-
-#pose-list li:last-child .pose-image { background: var(--surface); }
-
-.pose-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.pose-name {
-  font-size: 1.05rem;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
-.pose-minutes {
-  flex-shrink: 0;
-  padding: 3px 10px;
-  font-size: 0.8rem;
-  font-weight: 600;
   white-space: nowrap;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-radius: 999px;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.1s, opacity 0.2s;
 }
-
-#pose-list li:last-child .pose-minutes { background: var(--surface); }
-
-.pose-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible, .btn-icon:focus-visible, .btn-text:focus-visible, select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--sage-soft), 0 0 0 5px var(--sage);
 }
-
-/* Small round "×" next to the minutes */
-button.remove-pose {
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-  font-size: 1.15rem;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--faint);
-  background: transparent;
-  border-radius: 50%;
+.btn-primary { color: #fff; background: var(--terra); box-shadow: var(--shadow-button); }
+.btn-primary:hover { background: var(--terra-dark); }
+.btn-secondary { color: var(--ink); background: var(--surface); border-color: var(--line); }
+.btn-secondary:hover { border-color: var(--sage); }
+.btn-secondary:disabled { opacity: 0.4; cursor: default; }
+.btn-block { width: 100%; }
+.btn-text {
+  font: inherit; font-size: 0.95rem; font-weight: 600; color: var(--muted);
+  background: none; border: none; padding: 6px 2px; cursor: pointer; border-radius: 8px;
 }
+.btn-text:hover { color: var(--ink); }
 
-button.remove-pose:hover:not([aria-disabled="true"]) {
-  color: var(--text);
-  background: var(--bg);
+/* Round "×" on removable pose cards. */
+.btn-icon {
+  position: absolute; top: 8px; right: 8px; z-index: 1;
+  width: 32px; height: 32px; padding: 0;
+  display: grid; place-items: center;
+  font: inherit; font-size: 1.2rem; line-height: 1; color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line); border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
+.btn-icon:hover:not([aria-disabled="true"]) { color: var(--terra-dark); }
+.btn-icon[aria-disabled="true"] { opacity: 0.35; cursor: help; }
 
-button.remove-pose[aria-disabled="true"] {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-button.remove-pose[aria-disabled="true"]:active { transform: none; }
-
-/* Shown under the list once the 3-pose minimum is reached */
-.min-note {
-  margin: -16px 0 28px;
-  font-size: 0.9rem;
-  text-align: center;
+/* Form fields */
+.form-card { display: grid; gap: 22px; padding: 28px; }
+label {
+  display: grid; gap: 8px;
+  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
   color: var(--muted);
 }
+select {
+  appearance: none; -webkit-appearance: none; width: 100%;
+  padding: 14px 44px 14px 16px;
+  font: inherit; font-size: 1rem; font-weight: 500; letter-spacing: normal; text-transform: none;
+  color: var(--ink); background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237a7178' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center;
+  border: 1px solid transparent; border-radius: var(--radius-md); cursor: pointer;
+}
+select:hover { border-color: var(--line); }
+.form-card .btn { margin-top: 6px; }
+.form-error { margin: 0; font-size: 0.9rem; color: var(--terra-dark); text-align: center; }
 
-/* ---------- Undo toast ---------- */
+/* Chips: sequence facts (minutes, level, goal). */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px; }
+.chip {
+  font-size: 0.8rem; font-weight: 600; padding: 5px 12px;
+  border-radius: var(--radius-pill); background: var(--sand); color: var(--ink);
+}
+.chip-sage { background: var(--sage-soft); color: var(--sage); }
 
-.undo {
-  position: fixed;
-  left: 50%;
-  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+/* Breath badge: "Inhale", "Exhale", or "5 breaths". Two sizes: card (small) and play (large). */
+.breath {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-pill);
+}
+.breath::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.breath-count { background: var(--sage-soft); color: var(--sage); }
+.breath-inhale { background: var(--sky-soft); color: var(--sky); }
+.breath-exhale { background: var(--terra-soft); color: var(--terra-dark); }
+.breath-lg { font-size: 0.95rem; padding: 8px 15px; gap: 9px; }
+.breath-lg::before { width: 9px; height: 9px; }
+
+/* Pose art: the picture slot, or a placeholder until a picture exists. */
+.pose-art { background: var(--bg); display: grid; place-items: center; overflow: hidden; }
+.pose-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* Placeholder: a calm sun-over-hills picture with "Pose picture is coming soon". */
+.pose-placeholder {
+  display: grid; justify-items: center; gap: 6px;
+  width: 100%; padding: 12px; text-align: center;
+  font-size: 0.75rem; font-weight: 600; color: var(--muted);
+}
+.pose-placeholder img { width: 78%; max-width: 260px; height: auto; }
+
+/* Section header: one per sub-sequence on the builder. */
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 30px 0 12px; }
+.section-head h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; }
+.section-count { font-size: 0.8rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
+
+/* Builder pose card: picture, names and breath. Removable cards carry a .btn-icon. */
+.pose-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pose-card { position: relative; overflow: hidden; border-radius: var(--radius-md); }
+.pose-card .pose-art { aspect-ratio: 1 / 1; }
+.pose-card-body { padding: 10px 12px 13px; }
+.pose-card-name { font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
+.pose-card .sanskrit { font-size: 0.82rem; margin: 2px 0 8px; }
+
+.sanskrit { font-family: var(--font-display); font-style: italic; color: var(--muted); margin: 0; }
+
+/* Empty state: a sub-sequence with no poses yet, or with all poses removed. */
+.empty {
+  padding: 16px 18px; font-size: 0.92rem; font-style: italic; color: var(--muted);
+  background: var(--surface); border: 1.5px dashed var(--line); border-radius: var(--radius-md);
+}
+
+.match-note { font-size: 0.9rem; color: var(--muted); }
+
+/* No match: one button per practice that exists now, above Change sequence. */
+.available { display: grid; gap: 12px; margin: 4px 0 12px; }
+
+/* Pose message: appears under a pose when its "×" can't remove it. */
+.pose-message {
+  margin: 10px 0 0; padding: 8px 10px;
+  font-size: 0.8rem; line-height: 1.4; color: var(--ink);
+  background: var(--terra-soft); border-radius: 10px;
+  /* Keeps it clear of the action bar and Undo toast when scrolled to. */
+  scroll-margin: 24px 0 140px;
+  animation: message-in 0.2s ease both;
+}
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .pose-message { animation: none; } }
+
+/* Action bar: fixed to the bottom of the screen, holds a screen's two main buttons. */
+.action-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  padding: 24px 20px calc(18px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--bg) 72%, rgba(251, 248, 243, 0));
+}
+.action-bar-inner { max-width: 560px; margin: 0 auto; display: flex; gap: 10px; }
+.action-bar .btn { flex: 1; }
+
+/* Toast: confirms a removal and offers Undo. */
+.toast {
+  position: fixed; left: 50%; z-index: 10;
+  bottom: calc(100px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  display: flex; align-items: center; gap: 16px;
   max-width: calc(100% - 32px);
   padding: 10px 10px 10px 20px;
-  font-size: 0.95rem;
-  color: #fff;
-  background: var(--text);
-  border-radius: 999px;
-  box-shadow: 0 12px 32px -12px rgba(38, 48, 42, 0.5);
+  font-size: 0.95rem; color: #fff; background: var(--ink);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 12px 32px -12px rgba(59, 51, 64, 0.5);
   animation: toast-in 0.3s ease both;
 }
-
-/* Keeps the toast centered while it fades in */
 @keyframes toast-in {
   from { opacity: 0; transform: translate(-50%, 8px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
-
-.undo span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.toast span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.toast button {
+  flex-shrink: 0; padding: 8px 16px; font: inherit; font-size: 0.9rem; font-weight: 600;
+  color: var(--ink); background: var(--terra-soft); border: none; border-radius: var(--radius-pill); cursor: pointer;
 }
+.toast button:hover { background: #fff; }
 
-.undo button {
-  flex-shrink: 0;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  color: var(--text);
-  background: var(--bg-glow);
-}
+/* Progress bar on the play screen. */
+.progress { height: 6px; margin: 18px 0 8px; overflow: hidden; border-radius: var(--radius-pill); background: var(--line); }
+.progress > div { height: 100%; width: 0; background: var(--sage); border-radius: var(--radius-pill); transition: width 0.3s ease; }
 
-.undo button:hover { background: #fff; }
+/* Play card: one large pose with breath and cues. */
+.play-card { margin-top: 16px; overflow: hidden; }
+.play-card .pose-art { aspect-ratio: 4 / 3; }
+.play-card .pose-placeholder { font-size: 0.85rem; padding: 14px 18px; }
+.play-card .pose-placeholder img { width: 60%; }
+.play-body { padding: 20px 22px 24px; }
+.play-name { font-size: 1.9rem; }
+.play-card .sanskrit { font-size: 1.05rem; margin: 4px 0 16px; }
+.cue { margin-top: 16px; }
+.cue h3 { margin: 0 0 4px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.cue p { margin: 0; font-size: 1.02rem; line-height: 1.6; }
+.cue-missing { font-style: italic; color: var(--faint); }
 
-@media (prefers-reduced-motion: reduce) {
-  .undo { animation: none; }
-}
+/* ---------- 5. Screens ---------- */
 
-.pose-sanskrit {
-  margin-top: 2px;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 0.95rem;
-  color: var(--faint);
-}
+.play-top { display: flex; justify-content: space-between; align-items: center; }
+.play-where { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.play-done { text-align: center; padding: 56px 0 0; }
+.play-done .logo { font-size: 1.6rem; }
+.play-done h2 { margin: 12px 0 6px; }
+.play-done .btn { margin-top: 28px; }
 
-.pose-cue {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  color: var(--muted);
-}
-
-/* ---------- Footer ---------- */
-
-.site-footer {
-  margin-top: 48px;
-  font-size: 0.85rem;
-  text-align: center;
-  color: var(--faint);
-}
-
-.site-footer a {
-  color: var(--muted);
-  text-underline-offset: 3px;
-}
-
-.site-footer a:hover { color: var(--accent); }
-
-/* ---------- Small screens ---------- */
+.site-footer { margin-top: 48px; font-size: 0.85rem; text-align: center; color: var(--faint); }
+.site-footer a { color: var(--muted); text-underline-offset: 3px; }
+.site-footer a:hover { color: var(--sage); }
 
 @media (max-width: 480px) {
-  main { padding-top: 48px; }
-  form { padding: 22px; }
-  #pose-list li { padding: 16px 16px 16px 56px; }
-  #pose-list li::before { left: 16px; top: 16px; }
+  main { padding-top: 44px; }
+  .form-card { padding: 22px; }
 }

@@ -1,0 +1,223 @@
+{
+  "_note": "Generated from the Youga Content Airtable base. Do not edit by hand; edit Airtable and re-export (see docs/architecture.md).",
+  "exportedAt": "2026-11-11",
+  "sequences": [
+    {
+      "id": "recKHEvsCsAEeMFrO",
+      "name": "Energize · Beginner · 45 min",
+      "level": "Beginner",
+      "goal": "Energize",
+      "minutes": 45,
+      "sections": [
+        {
+          "id": "rec57kjypm6u1Xbcn",
+          "name": "Sun salutation 1",
+          "editable": false,
+          "transition": null,
+          "steps": [
+            {
+              "pose": "recg1WYbC8YfQIE6e",
+              "hold": 1,
+              "breath": "Exhale",
+              "transition": null
+            },
+            {
+              "pose": "recccE7pLC4p96IyU",
+              "hold": 1,
+              "breath": "Inhale",
+              "transition": null
+            },
+            {
+              "pose": "recPgPkytx2ZRsx0k",
+              "hold": 1,
+              "breath": "Exhale",
+              "transition": null
+            },
+            {
+              "pose": "reco7lIYEENKx6zuK",
+              "hold": 1,
+              "breath": "Inhale",
+              "transition": "Send your feet back and through plank bend your elbows and lower your shoulders to elbows' height"
+            },
+            {
+              "pose": "recS0cItAFZ9M0w96",
+              "hold": 1,
+              "breath": "Exhale",
+              "transition": null
+            },
+            {
+              "pose": "rec7Moa9qqdGKW45R",
+              "hold": 1,
+              "breath": "Inhale",
+              "transition": null
+            },
+            {
+              "pose": "reciJkZEmNf240jg5",
+              "hold": 5,
+              "breath": "Exhale",
+              "transition": null
+            },
+            {
+              "pose": "reco7lIYEENKx6zuK",
+              "hold": 1,
+              "breath": "Inhale",
+              "transition": null
+            },
+            {
+              "pose": "recPgPkytx2ZRsx0k",
+              "hold": 1,
+              "breath": "Exhale",
+              "transition": null
+            },
+            {
+              "pose": "recg1WYbC8YfQIE6e",
+              "hold": 1,
+              "breath": "Inhale",
+              "transition": null
+            }
+          ]
+        },
+        {
+          "id": "recG5tXA7HAB7agZ5",
+          "name": "Standing series - beginner",
+          "editable": true,
+          "transition": null,
+          "steps": []
+        },
+        {
+          "id": "rec9FmwElkDKdkXDo",
+          "name": "Seating Series - beginner",
+          "editable": true,
+          "transition": null,
+          "steps": []
+        },
+        {
+          "id": "recSGUwAuZXt64aPb",
+          "name": "Reclined poses - beginner",
+          "editable": true,
+          "transition": null,
+          "steps": []
+        },
+        {
+          "id": "recdITQnOY5EH96Ch",
+          "name": "Wind down",
+          "editable": true,
+          "transition": null,
+          "steps": [
+            {
+              "pose": "recSyfdE2BuHUHSwS",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "pose": "recH6qP9R2EvjKYW2",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            }
+          ]
+        },
+        {
+          "id": "rec1jDn8zE6aPYGZn",
+          "name": "Ending series",
+          "editable": true,
+          "transition": null,
+          "steps": [
+            {
+              "pose": "receIebr8HQNY0CNf",
+              "hold": 20,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "pose": "recAXGRcBRkD56ThI",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "poses": {
+    "recg1WYbC8YfQIE6e": {
+      "name": "Mountain Pose",
+      "sanskrit": "Tadasana",
+      "cueIn": "From tabletop, tuck your toes and walk your hands back toward your feet. Roll up with a round back, vertebra by vertebra, then roll your shoulders back. Stand at the front of the mat with palms together at your chest.",
+      "cueOut": "Release your hands down by your sides.",
+      "image": "images/poses/mountain-pose.svg"
+    },
+    "recccE7pLC4p96IyU": {
+      "name": "Upward Salute",
+      "sanskrit": "Urdhva Hastasana",
+      "cueIn": "From Mountain Pose, inhale and sweep your arms out and up overhead.",
+      "cueOut": "Exhale and fold forward, or lower your arms by your sides.",
+      "image": "images/poses/upward-salute.svg"
+    },
+    "recPgPkytx2ZRsx0k": {
+      "name": "Standing Forward Fold",
+      "sanskrit": "Uttanasana",
+      "cueIn": "Fold forward from your hips and let your shoulders relax. Bend your knees and hold your shins if you need to. Only if you reach down easily, hook your big toes with your index and middle fingers.",
+      "cueOut": "Bend your knees and roll up slowly, vertebra by vertebra.",
+      "image": null
+    },
+    "reco7lIYEENKx6zuK": {
+      "name": "Half Standing Forward Bend",
+      "sanskrit": "Ardha Uttanasana",
+      "cueIn": "From Standing Forward Fold, inhale, bring your hands to your shins and lengthen your spine forward into a flat back.",
+      "cueOut": "Exhale and fold back down.",
+      "image": null
+    },
+    "recS0cItAFZ9M0w96": {
+      "name": "Four-Limbed Staff",
+      "sanskrit": "Chaturanga Dandasana",
+      "cueIn": "From Plank, shift slightly forward and bend your elbows close to your ribs, lowering halfway down.",
+      "cueOut": "Lower all the way to the mat or press into the next pose.",
+      "image": null
+    },
+    "rec7Moa9qqdGKW45R": {
+      "name": "Upward-facing dog",
+      "sanskrit": "Urdhva Mukha Svanasana",
+      "cueIn": "From plank, lower your knees to touch the mat, extend the spine and neck and look upward. If you feel comfortable, lift your knees from the floor.",
+      "cueOut": "Tuck your toes and lift your hips up and back to downward-facing dog.",
+      "image": null
+    },
+    "reciJkZEmNf240jg5": {
+      "name": "Downward-Facing Dog",
+      "sanskrit": "Adho Mukha Svanasana",
+      "cueIn": "From hands and knees, tuck your toes and lift your hips up and back. Press firmly through your hands, lengthen your spine, and bend your knees as much as you need. Place your head between the arms.",
+      "cueOut": "Bend your knees and lower them gently to the mat, coming back to hands and knees.",
+      "image": "images/poses/downward-facing-dog.svg"
+    },
+    "recSyfdE2BuHUHSwS": {
+      "name": "Reclined Twist",
+      "sanskrit": "Supta Matsyendrasana",
+      "cueIn": "Lie on your back, hug your knees in and let them fall to one side. Open your arms wide and, if comfortable, turn your head the other way.",
+      "cueOut": "Bring your knees back to center and repeat on the other side.",
+      "image": null
+    },
+    "recH6qP9R2EvjKYW2": {
+      "name": "Happy baby",
+      "sanskrit": "Ananda Balasana",
+      "cueIn": "",
+      "cueOut": "",
+      "image": null
+    },
+    "receIebr8HQNY0CNf": {
+      "name": "Corpse Pose",
+      "sanskrit": "Savasana",
+      "cueIn": "You've reached full relaxation. Spread your arms by your sides, palms open up, and let your legs fall to the sides. Soften your forehead and the space between your eyebrows. Let your eyes sink into their sockets and run your tongue once over your lips to moisten them. Your chest is soft and melts to the sides; your belly is soft.",
+      "cueOut": "Deepen your breath, wiggle your fingers and toes, roll to your right side and slowly come up to sitting.",
+      "image": null
+    },
+    "recAXGRcBRkD56ThI": {
+      "name": "Easy Pose",
+      "sanskrit": "Sukhasana",
+      "cueIn": "Sit cross-legged and lengthen your spine. Breathe at a natural pace, then deepen the inhale and exhale: feel the ribcage expand with each inhale and contract with each exhale.",
+      "cueOut": "Slowly open your eyes and uncross your legs.",
+      "image": null
+    }
+  }
+}

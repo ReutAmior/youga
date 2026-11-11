@@ -1,160 +1,334 @@
-// Youga app logic: read the choices, pick a sequence from poses.js, show it.
+// Youga app logic.
+// Flow: Welcome (choose) → Builder (review and trim) → Play (one pose at a time).
+// Content comes from data/content.json, which is exported from Airtable.
+// See docs/architecture.md for the full picture.
 
-// How many poses each practice length uses (Savasana included).
-const POSES_PER_DURATION = { 15: 6, 30: 10, 45: 14 };
+// ---------- Settings ----------
 
-// A practice can't be trimmed below this many poses (Savasana included).
+// A practice can't be trimmed below this many poses.
 const MIN_POSES = 3;
-
 // How long the Undo option stays visible after removing a pose.
 const UNDO_SECONDS = 6;
+// How long the "can't remove" message stays under a pose.
+const MESSAGE_SECONDS = 4;
+// Shown under a pose from a part of the practice that can't be edited.
+const PROTECTED_MESSAGE = "This pose is a part of a sequence and cannot be removed from it.";
+// Shown under a pose when the practice is already at the minimum.
+const MIN_MESSAGE = `Keep at least ${MIN_POSES} poses so your practice still flows.`;
+// Shown in the picture slot until a pose has its own picture.
+const PLACEHOLDER_IMAGE = "images/pose-placeholder.svg";
+const PLACEHOLDER_TEXT = "Pose picture is coming soon";
 
-const form = document.getElementById("practice-form");
-const welcome = document.getElementById("welcome");
-const results = document.getElementById("results");
-const summary = document.getElementById("summary");
-const poseList = document.getElementById("pose-list");
-const startOver = document.getElementById("start-over");
-const minNote = document.getElementById("min-note");
-const undoBar = document.getElementById("undo");
-const undoText = document.getElementById("undo-text");
-const undoButton = document.getElementById("undo-button");
+// ---------- State ----------
 
-// The practice currently on screen.
-let practice = { poses: [], duration: 0 };
-// The most recently removed pose and where it was, for Undo.
-let lastRemoved = null;
+let content = null;          // { sequences, poses } from data/content.json
+let practice = null;         // { sequence, removed: Set of "section:step" keys }
+let lastRemoved = null;      // key of the most recently removed step, for Undo
 let undoTimer = null;
+let messageTimer = null;
+let playSteps = [];          // the steps left after removals, flattened for Play
+let playIndex = 0;
 
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+const $ = (id) => document.getElementById(id);
+const screens = ["welcome", "builder", "no-match", "play"];
+
+// ---------- Loading ----------
+
+fetch("data/content.json")
+  .then((res) => {
+    if (!res.ok) throw new Error(res.status);
+    return res.json();
+  })
+  .then((data) => { content = data; })
+  .catch(() => { $("load-error").hidden = false; });
+
+// ---------- Helpers ----------
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
 }
 
-// Picks the poses: the first poses of the list, always ending with Savasana.
-function buildPractice(level, duration, goal) {
-  const sequence = SEQUENCES[goal][level];
-  const count = Math.min(POSES_PER_DURATION[duration], sequence.length);
-  return sequence.slice(0, count - 1).concat(sequence[sequence.length - 1]);
+// Shows one screen and the bottom bar and footer that belong to it.
+function showScreen(name) {
+  screens.forEach((s) => { $(s).hidden = s !== name; });
+  $("builder-bar").hidden = name !== "builder";
+  $("play-bar").hidden = name !== "play";
+  $("footer").hidden = name === "play";
+  if (name !== "builder") hideUndo();
+  window.scrollTo(0, 0);
 }
 
-// Splits the total minutes as evenly as whole numbers allow. Leftover minutes
-// go one each to the first poses, so the total always matches the duration.
-// Example: 30 minutes over 9 poses → 4, 4, 4, 3, 3, 3, 3, 3, 3.
-function assignMinutes(poses, duration) {
-  const minutesEach = Math.floor(duration / poses.length);
-  const leftover = duration - minutesEach * poses.length;
-  return poses.map((pose, i) => ({ ...pose, minutes: minutesEach + (i < leftover ? 1 : 0) }));
+// Picks a vetted sequence: exact match first, then the same level and goal
+// at the closest length. Returns null when nothing fits yet.
+function findSequence(level, minutes, goal) {
+  const sameKind = content.sequences.filter((s) => s.level === level && s.goal === goal);
+  if (!sameKind.length) return null;
+  const exact = sameKind.find((s) => s.minutes === minutes);
+  if (exact) return { sequence: exact, exact: true };
+  const closest = sameKind.reduce((a, b) =>
+    Math.abs(a.minutes - minutes) <= Math.abs(b.minutes - minutes) ? a : b);
+  return { sequence: closest, exact: false };
 }
 
-// Shows the pose's picture, or a placeholder with its name until a picture is
-// added. To add one, give the pose an `image` path in poses.js.
-function poseImage(pose) {
+// "Inhale", "Exhale · 5 breaths", or "5 breaths".
+function breathBadge(step, large) {
+  const hold = step.hold || 1;
+  const kind = step.breath ? step.breath.toLowerCase() : "count";
+  let label;
+  if (step.breath) label = hold > 1 ? `${step.breath} · ${hold} breaths` : step.breath;
+  else label = `${hold} ${hold === 1 ? "breath" : "breaths"}`;
+  return el("span", `breath breath-${kind}${large ? " breath-lg" : ""}`, label);
+}
+
+// The pose picture, or a calm placeholder until a picture exists.
+// A missing picture never blocks a pose from showing.
+function poseArt(pose) {
+  const wrap = el("div", "pose-art");
   if (pose.image) {
-    const img = document.createElement("img");
+    const img = el("img");
     img.src = pose.image;
     img.alt = pose.name;
     img.loading = "lazy";
-    return img;
+    wrap.appendChild(img);
+  } else {
+    const placeholder = el("div", "pose-placeholder");
+    const art = el("img");
+    art.src = PLACEHOLDER_IMAGE;
+    art.alt = "";
+    placeholder.appendChild(art);
+    placeholder.appendChild(el("span", null, PLACEHOLDER_TEXT));
+    wrap.appendChild(placeholder);
   }
-  const placeholder = document.createElement("div");
-  placeholder.className = "pose-placeholder";
-  placeholder.setAttribute("aria-hidden", "true");
-  placeholder.textContent = pose.name;
-  return placeholder;
+  return wrap;
 }
 
-function render() {
-  const timed = assignMinutes(practice.poses, practice.duration);
-  const canRemove = practice.poses.length > MIN_POSES;
-  poseList.innerHTML = "";
+const stepKey = (sectionIndex, stepIndex) => `${sectionIndex}:${stepIndex}`;
 
-  timed.forEach((pose, index) => {
-    const isClosing = index === timed.length - 1;
-    const item = document.createElement("li");
-    item.innerHTML = `
-      <div class="pose-image"></div>
-      <div class="pose-head">
-        <span class="pose-name"></span>
-        <span class="pose-actions">
-          <span class="pose-minutes"></span>
-        </span>
-      </div>
-      <div class="pose-sanskrit"></div>
-      <div class="pose-cue"></div>`;
-    item.querySelector(".pose-name").textContent = pose.name;
-    item.querySelector(".pose-minutes").textContent = `${pose.minutes} min`;
-    item.querySelector(".pose-sanskrit").textContent = pose.sanskrit;
-    item.querySelector(".pose-cue").textContent = pose.cue;
-    item.querySelector(".pose-image").appendChild(poseImage(pose));
+// All steps still in the practice, in order, with their section name.
+function remainingSteps() {
+  const out = [];
+  practice.sequence.sections.forEach((section, si) => {
+    section.steps.forEach((step, k) => {
+      if (!practice.removed.has(stepKey(si, k))) out.push({ ...step, section: section.name });
+    });
+  });
+  return out;
+}
 
-    // Savasana closes every practice, so it has no remove button.
-    if (!isClosing) {
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "remove-pose";
-      remove.textContent = "×";
-      // aria-disabled rather than disabled: browsers hide the hover text on
-      // truly disabled buttons. removePose() ignores the click at the minimum.
-      remove.setAttribute("aria-disabled", String(!canRemove));
-      remove.title = canRemove ? "Remove this pose" : `A practice needs at least ${MIN_POSES} poses`;
-      remove.setAttribute("aria-label", `Remove ${pose.name}`);
-      remove.addEventListener("click", () => removePose(index));
-      item.querySelector(".pose-actions").appendChild(remove);
+// ---------- Builder ----------
+
+function renderBuilder() {
+  const { sequence } = practice;
+  const canRemove = remainingSteps().length > MIN_POSES;
+  const container = $("sections");
+  container.innerHTML = "";
+
+  sequence.sections.forEach((section, si) => {
+    const visible = section.steps
+      .map((step, k) => ({ step, k }))
+      .filter(({ k }) => !practice.removed.has(stepKey(si, k)));
+
+    const head = el("div", "section-head");
+    head.appendChild(el("h3", null, section.name));
+    if (visible.length) head.appendChild(el("span", "section-count", `${visible.length} ${visible.length === 1 ? "pose" : "poses"}`));
+    container.appendChild(head);
+
+    if (!section.steps.length) {
+      container.appendChild(el("div", "empty", "No poses yet"));
+      return;
+    }
+    if (!visible.length) {
+      container.appendChild(el("div", "empty", "You removed all poses from this part"));
+      return;
     }
 
-    poseList.appendChild(item);
+    const grid = el("div", "pose-grid");
+    visible.forEach(({ step, k }) => {
+      const pose = content.poses[step.pose];
+      const card = el("div", "card pose-card");
+      const body = el("div", "pose-card-body");
+      // Every pose gets an "×". On a protected pose, or at the minimum, it is
+      // greyed out (aria-disabled, so the tap still lands) and explains why
+      // right under the pose instead of removing it.
+      const allowed = section.editable && canRemove;
+      const remove = el("button", "btn-icon", "×");
+      remove.type = "button";
+      remove.setAttribute("aria-label", `Remove ${pose.name}`);
+      remove.setAttribute("aria-disabled", String(!allowed));
+      if (allowed) remove.title = "Remove this pose";
+      remove.addEventListener("click", () => {
+        if (!section.editable) showPoseMessage(body, PROTECTED_MESSAGE);
+        else if (!canRemove) showPoseMessage(body, MIN_MESSAGE);
+        else removePose(si, k);
+      });
+      card.appendChild(remove);
+      card.appendChild(poseArt(pose));
+      body.appendChild(el("div", "pose-card-name", pose.name));
+      if (pose.sanskrit) body.appendChild(el("p", "sanskrit", pose.sanskrit));
+      body.appendChild(breathBadge(step, false));
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
   });
-
-  minNote.hidden = canRemove;
 }
 
-function removePose(index) {
-  if (practice.poses.length <= MIN_POSES) return;
-  const [pose] = practice.poses.splice(index, 1);
-  lastRemoved = { pose, index };
-  render();
-  showUndo(pose.name);
+// Explains, right under the pose that was tapped, why it can't be removed.
+// Only one message shows at a time.
+function showPoseMessage(body, text) {
+  hidePoseMessage();
+  const message = el("p", "pose-message", text);
+  message.setAttribute("role", "status");
+  body.appendChild(message);
+  message.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  messageTimer = setTimeout(hidePoseMessage, MESSAGE_SECONDS * 1000);
+}
+
+function hidePoseMessage() {
+  clearTimeout(messageTimer);
+  document.querySelectorAll(".pose-message").forEach((node) => node.remove());
+}
+
+function removePose(sectionIndex, stepIndex) {
+  if (remainingSteps().length <= MIN_POSES) return;
+  const key = stepKey(sectionIndex, stepIndex);
+  practice.removed.add(key);
+  lastRemoved = key;
+  const step = practice.sequence.sections[sectionIndex].steps[stepIndex];
+  renderBuilder();
+  showUndo(content.poses[step.pose].name);
 }
 
 function showUndo(poseName) {
-  undoText.textContent = `Removed ${poseName}`;
-  undoBar.hidden = false;
+  $("undo-text").textContent = `Removed ${poseName}`;
+  $("undo").hidden = false;
   clearTimeout(undoTimer);
   undoTimer = setTimeout(hideUndo, UNDO_SECONDS * 1000);
 }
 
 function hideUndo() {
   clearTimeout(undoTimer);
-  undoBar.hidden = true;
+  $("undo").hidden = true;
   lastRemoved = null;
 }
 
-undoButton.addEventListener("click", () => {
+$("undo-button").addEventListener("click", () => {
   if (!lastRemoved) return;
-  practice.poses.splice(lastRemoved.index, 0, lastRemoved.pose);
+  practice.removed.delete(lastRemoved);
   hideUndo();
-  render();
+  renderBuilder();
 });
 
-function showResults(level, duration, goal) {
-  practice = { poses: buildPractice(level, duration, goal), duration };
-  hideUndo();
+function showBuilder(match, minutesAsked) {
+  const { sequence } = match;
+  practice = { sequence, removed: new Set() };
+  $("sequence-name").textContent = sequence.name;
+  const meta = $("sequence-meta");
+  meta.innerHTML = "";
+  meta.appendChild(el("span", "chip", `${sequence.minutes} min`));
+  meta.appendChild(el("span", "chip chip-sage", sequence.level));
+  meta.appendChild(el("span", "chip", sequence.goal));
+  $("match-note").hidden = match.exact;
+  if (!match.exact) {
+    $("match-note").textContent = `We don't have a ${minutesAsked}-minute version yet, so here is the ${sequence.minutes}-minute one.`;
+  }
+  renderBuilder();
+  showScreen("builder");
+}
 
-  summary.textContent = `${duration}-minute ${capitalize(level)} practice for ${capitalize(goal)}`;
-  render();
+// ---------- Play ----------
 
-  welcome.hidden = true;
-  results.hidden = false;
+function startPlay() {
+  playSteps = remainingSteps();
+  playIndex = 0;
+  $("play-card").hidden = false;
+  $("play-done").hidden = true;
+  showScreen("play");
+  renderPlay();
+}
+
+function setCue(node, text) {
+  node.textContent = text || "Cue coming soon";
+  node.classList.toggle("cue-missing", !text);
+}
+
+function renderPlay() {
+  const step = playSteps[playIndex];
+  const pose = content.poses[step.pose];
+  const image = $("play-image");
+  image.innerHTML = "";
+  image.appendChild(poseArt(pose).firstChild);
+  $("play-name").textContent = pose.name;
+  $("play-sanskrit").textContent = pose.sanskrit || "";
+  $("play-sanskrit").hidden = !pose.sanskrit;
+  const breath = $("play-breath");
+  breath.innerHTML = "";
+  breath.appendChild(breathBadge(step, true));
+  setCue($("play-in"), pose.cueIn);
+  // Inside a sub-sequence the practitioner flows straight into the next pose,
+  // so its transition cue replaces the pose's own "out of the pose" cue.
+  setCue($("play-out"), step.transition || pose.cueOut);
+  $("play-section").textContent = step.section;
+  $("play-counter").textContent = `${playIndex + 1} of ${playSteps.length}`;
+  $("progress-fill").style.width = `${((playIndex + 1) / playSteps.length) * 100}%`;
+  $("prev").disabled = playIndex === 0;
+  $("next").textContent = playIndex === playSteps.length - 1 ? "Finish" : "Next pose";
   window.scrollTo(0, 0);
 }
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  showResults(form.level.value, Number(form.duration.value), form.goal.value);
+function finishPlay() {
+  $("play-card").hidden = true;
+  $("play-done").hidden = false;
+  $("play-bar").hidden = true;
+  $("progress-fill").style.width = "100%";
+}
+
+$("next").addEventListener("click", () => {
+  if (playIndex < playSteps.length - 1) { playIndex += 1; renderPlay(); }
+  else finishPlay();
+});
+$("prev").addEventListener("click", () => {
+  if (playIndex > 0) { playIndex -= 1; renderPlay(); }
+});
+$("exit").addEventListener("click", () => showScreen("builder"));
+$("lets-go").addEventListener("click", startPlay);
+
+document.addEventListener("keydown", (event) => {
+  if ($("play").hidden || !$("play-done").hidden) return;
+  if (event.key === "ArrowRight") $("next").click();
+  if (event.key === "ArrowLeft") $("prev").click();
 });
 
-startOver.addEventListener("click", () => {
-  hideUndo();
-  results.hidden = true;
-  welcome.hidden = false;
+// ---------- Welcome ----------
+
+$("practice-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!content) { $("load-error").hidden = false; return; }
+  const form = event.target;
+  const level = form.level.value;
+  const minutes = Number(form.minutes.value);
+  const goal = form.goal.value;
+  const match = findSequence(level, minutes, goal);
+  if (match) { showBuilder(match, minutes); return; }
+
+  $("no-match-text").textContent =
+    `We're still creating a ${level.toLowerCase()} practice for "${goal}". ` +
+    "These are available now:";
+  // One button per available practice, straight to its builder.
+  const list = $("available");
+  list.innerHTML = "";
+  content.sequences.forEach((sequence) => {
+    const button = el("button", "btn btn-primary btn-block", `${sequence.level} · ${sequence.minutes} min · ${sequence.goal}`);
+    button.type = "button";
+    button.addEventListener("click", () => showBuilder({ sequence, exact: true }, sequence.minutes));
+    list.appendChild(button);
+  });
+  showScreen("no-match");
 });
+
+// Every "Change sequence" button goes back to the choices.
+document.querySelectorAll('[data-action="change"]').forEach((button) =>
+  button.addEventListener("click", () => showScreen("welcome")));

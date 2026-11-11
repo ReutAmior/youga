@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" role="img" aria-hidden="true">
+  <!-- Calm stand-in for a missing pose picture: a low sun over soft hills, in the Youga palette. -->
+  <circle cx="100" cy="72" r="30" fill="#f7e6df"/>
+  <circle cx="100" cy="72" r="20" fill="#f0d3c6"/>
+  <path d="M0 86 C 40 66, 70 70, 104 82 S 170 96, 200 78 V120 H0 Z" fill="#e4efec"/>
+  <path d="M0 100 C 46 88, 92 92, 130 100 S 182 108, 200 98 V120 H0 Z" fill="#cfe2dd"/>
+  <path d="M60 46 q6 -5 12 0 q6 -5 12 0" fill="none" stroke="#a89fa5" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M120 36 q4 -3.5 8 0 q4 -3.5 8 0" fill="none" stroke="#a89fa5" stroke-width="1.4" stroke-linecap="round"/>
+</svg>
