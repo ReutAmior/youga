@@ -121,7 +121,7 @@
         {
           "id": "rec1jDn8zE6aPYGZn",
           "name": "Ending series",
-          "editable": false,
+          "editable": true,
           "transition": null,
           "steps": [
             {

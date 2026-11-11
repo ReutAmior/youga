@@ -64,7 +64,7 @@ All screens live in one page (`index.html`); `app.js` shows one `<section>` at a
   - **action bar:** Change sequence · Let's go
   - **toast** with Undo after a removal
 - **Rules:**
-  - Every pose card has an "×", but it removes the pose only in sub-sequences where **Editable = Yes**. On other poses it is greyed out, and a tap shows "This pose is important to your practice, so it can't be deleted." right under that pose (`PROTECTED_MESSAGE`).
+  - Every pose card has an "×", but it removes the pose only in sub-sequences where **Editable = Yes**. On other poses it is greyed out, and a tap shows "This pose is a part of a sequence and cannot be removed from it." right under that pose (`PROTECTED_MESSAGE`).
   - A practice can't drop below **3 poses** (`MIN_POSES` in app.js). At the minimum, every "×" greys out and a tap shows "Keep at least 3 poses so your practice still flows." under that pose (`MIN_MESSAGE`).
   - Only one pose message shows at a time; it disappears after **4 seconds** (`MESSAGE_SECONDS`).
   - **Undo** restores the most recent removal to its original place. The toast stays for **6 seconds** (`UNDO_SECONDS`).
@@ -72,12 +72,12 @@ All screens live in one page (`index.html`); `app.js` shows one `<section>` at a
 
 ### 3.3 No match (`#no-match`)
 - **Purpose:** an honest answer when no vetted sequence exists yet for the chosen level and goal.
-- **Contents:** heading "This practice is on its way", which practices are available now, and **Change sequence**.
+- **Contents:** heading "This practice is on its way", then one primary button per practice available now (e.g. "Beginner · 45 min · Energize") that opens it straight in the builder, and **Change sequence**.
 
 ### 3.4 Play (`#play`)
 - **Purpose:** guide the practice one pose at a time, so nobody has to time themselves (roadmap Phase 1).
 - **Contents:** small logo and **Exit**, progress bar, sub-sequence name and "4 of 13", the **play pose card**, and the action bar **Previous · Next pose** (**Finish** on the last pose).
-- **Play pose card:** picture, English name, Sanskrit name, large **breath badge**, "Into the pose" cue, "Out of the pose" cue, and "Moving to the next pose" when the step has a transition cue. A missing cue shows "Cue coming soon".
+- **Play pose card:** picture, English name, Sanskrit name, large **breath badge**, "Into the pose" cue and "Out of the pose" cue. When the step has a transition cue (Sub-sequence steps → Transition cue to next pose), that cue replaces the pose's own cue out, in the same place and design: inside a sub-sequence the practitioner flows on to the next pose rather than coming out. A missing cue shows "Cue coming soon".
 - **Rules:** plays only the poses left after removals; skips empty sub-sequences; the arrow keys move between poses; Exit returns to the builder with the removals kept.
 - **Done state:** "Practice complete · Namaste" with **Back to start**.
 - **Not built yet:** timed auto-advance, voice cues from the cue text, chimes or music (roadmap decisions).
@@ -214,10 +214,12 @@ Shape of `data/content.json`:
 - **Only one vetted sequence** (Energize · Beginner · 45 min). Every other choice shows No match, and 15 or 30 minutes falls back to the 45-minute class.
 - **Three empty sub-sequences** in that class: Standing series, Seating Series, Reclined poses. It plays 14 poses, far less than 45 minutes.
 - **Pictures:** 3 of 49 poses have one.
-- **Changes from the previous live version:** the goal options changed (Relaxation, Flexibility, Strength, Energy became Energize, Relax, Stretch, Strength, Relieve pain); pose time is in breaths instead of minutes; the "Savasana can't be removed" rule is replaced by Editable sub-sequences; `poses.js` is gone.
+- **Changes from the previous live version:** the goal options changed (Relaxation, Flexibility, Strength, Energy became Energize, Relax, Stretch, Strength, Relieve pain); pose time is in breaths instead of minutes; the "Savasana can't be removed" rule is replaced by Editable sub-sequences (Ending series is Editable = Yes since 2026-11-11, so Savasana can be skipped); `poses.js` is gone.
 
 ### Open content issues
 - [ ] **Missing cues:** Happy baby has no cue in or out; Warrior 1 has no cues and no default hold.
+- [ ] **"Out of the pose" title on transitions:** when the step has a transition cue, the text is about moving to the next pose but the title still says "Out of the pose". Decide on a title that fits both (or switch it per step).
+- [ ] **Cue out vs. transition:** some poses' "Cue out of pose" is really the move into the next pose (e.g. Upward-facing dog → Downward-Facing Dog). Review them now that transitions replace cue out inside sub-sequences.
 - [ ] **Vetting:** only 3 of 49 poses are ticked Vetted (Upward-facing dog, Downward-Facing Dog, Warrior 2). The export doesn't filter by pose Vetted yet.
 
 ## 9. Open questions

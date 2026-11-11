@@ -12,7 +12,7 @@ const UNDO_SECONDS = 6;
 // How long the "can't remove" message stays under a pose.
 const MESSAGE_SECONDS = 4;
 // Shown under a pose from a part of the practice that can't be edited.
-const PROTECTED_MESSAGE = "This pose is important to your practice, so it can't be deleted.";
+const PROTECTED_MESSAGE = "This pose is a part of a sequence and cannot be removed from it.";
 // Shown under a pose when the practice is already at the minimum.
 const MIN_MESSAGE = `Keep at least ${MIN_POSES} poses so your practice still flows.`;
 // Shown in the picture slot until a pose has its own picture.
@@ -268,9 +268,9 @@ function renderPlay() {
   breath.innerHTML = "";
   breath.appendChild(breathBadge(step, true));
   setCue($("play-in"), pose.cueIn);
-  setCue($("play-out"), pose.cueOut);
-  $("play-next").hidden = !step.transition;
-  $("play-next-text").textContent = step.transition || "";
+  // Inside a sub-sequence the practitioner flows straight into the next pose,
+  // so its transition cue replaces the pose's own "out of the pose" cue.
+  setCue($("play-out"), step.transition || pose.cueOut);
   $("play-section").textContent = step.section;
   $("play-counter").textContent = `${playIndex + 1} of ${playSteps.length}`;
   $("progress-fill").style.width = `${((playIndex + 1) / playSteps.length) * 100}%`;
@@ -314,10 +314,18 @@ $("practice-form").addEventListener("submit", (event) => {
   const match = findSequence(level, minutes, goal);
   if (match) { showBuilder(match, minutes); return; }
 
-  const available = content.sequences.map((s) => `${s.level} · ${s.minutes} min · ${s.goal}`);
   $("no-match-text").textContent =
     `We're still creating a ${level.toLowerCase()} practice for "${goal}". ` +
-    `Available now: ${available.join("; ")}.`;
+    "These are available now:";
+  // One button per available practice, straight to its builder.
+  const list = $("available");
+  list.innerHTML = "";
+  content.sequences.forEach((sequence) => {
+    const button = el("button", "btn btn-primary btn-block", `${sequence.level} · ${sequence.minutes} min · ${sequence.goal}`);
+    button.type = "button";
+    button.addEventListener("click", () => showBuilder({ sequence, exact: true }, sequence.minutes));
+    list.appendChild(button);
+  });
   showScreen("no-match");
 });
 

@@ -240,6 +240,9 @@ select:hover { border-color: var(--line); }
 
 .match-note { font-size: 0.9rem; color: var(--muted); }
 
+/* No match: one button per practice that exists now, above Change sequence. */
+.available { display: grid; gap: 12px; margin: 4px 0 12px; }
+
 /* Pose message: appears under a pose when its "×" can't remove it. */
 .pose-message {
   margin: 10px 0 0; padding: 8px 10px;
@@ -303,7 +306,6 @@ select:hover { border-color: var(--line); }
 .cue { margin-top: 16px; }
 .cue h3 { margin: 0 0 4px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .cue p { margin: 0; font-size: 1.02rem; line-height: 1.6; }
-.cue-next { padding: 12px 14px; background: var(--sand); border-radius: 14px; }
 .cue-missing { font-style: italic; color: var(--faint); }
 
 /* ---------- 5. Screens ---------- */
