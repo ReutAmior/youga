@@ -222,7 +222,21 @@ Shape of `data/content.json`:
 - [ ] **Cue out vs. transition:** some poses' "Cue out of pose" is really the move into the next pose (e.g. Upward-facing dog → Downward-Facing Dog). Review them now that transitions replace cue out inside sub-sequences.
 - [ ] **Vetting:** only 3 of 49 poses are ticked Vetted (Upward-facing dog, Downward-Facing Dog, Warrior 2). The export doesn't filter by pose Vetted yet.
 
+### Open UX issues
+- [ ] **Play: cues below the fold.** On a phone the picture fills the top of the play card, so the cue text starts below the fold and is easy to miss. The cues should always be visible without scrolling, e.g. a smaller picture or the cues placed beside or over it.
+- [ ] **Builder: purpose isn't clear.** Nothing on the page says this is your practice to review and trim before you start. It needs a short heading or intro, e.g. "Here's your practice. Remove any poses you'd like to skip, then press Let's go."
+- [ ] **No celebration at the end.** "Practice complete · Namaste" is plain text. Add a moment that celebrates finishing the practice: an image plus encouraging text. This is also a natural hook for the habit features in Phase 2 (streaks, history).
+
+### Open decision: how content gets from Airtable to the app
+Today an export runs by hand (decision 008): `node --env-file=.env.local scripts/export-airtable.mjs` with a read-only Airtable token, then a branch, a preview and a merge. Options to decide between:
+1. **Keep the manual export.** Needs Node and a read-only token (`data.records:read` on Youga Content) in `.env.local`, which git ignores.
+2. **Automate it with a GitHub Action (recommended).** The token lives in a GitHub secret; a button (or a schedule) runs the export and opens a PR, so Vercel builds a preview and the review step stays. No Node or terminal needed.
+3. **The app reads Airtable live.** Instant updates, but needs a server function to hide the token, drops the review step and depends on Airtable's rate limits. Rejected in 008.
+
+Record the choice as an update to decision 008.
+
 ## 9. Open questions
 - Should 15- and 30-minute choices fall back to a longer class, or show No match?
 - When does Play get timing, voice cues and chimes?
 - Should the export filter out poses that aren't Vetted?
+- How should content get from Airtable to the app: manual export, a GitHub Action, or live? (see §8, Open decision)
