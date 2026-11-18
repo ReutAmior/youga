@@ -1,6 +1,6 @@
 # Draft: pose variations in Airtable
 
-- **Status:** Draft, not applied. Implements [decision 009](../decisions/009-pose-variations.md).
+- **Status:** Migration run on the copy **Youga Content (Copy)** (`appXMpKy4TpNPp86j`) on 2026-11-18, steps 1–6. The original base is unchanged. Implements [decision 009](../decisions/009-pose-variations.md).
 - **Date:** 2026-11-18 (updated with your answers)
 
 ## 1. The idea in one picture
@@ -167,7 +167,14 @@ Most of today's rows become a pose with a single variation. These are grouped:
 
 **Sun salutations:** done 2026-11-18. The sub-sequence that used Half Sun Salutation was edited, and the Sun Salutation A, B and Half Sun Salutation rows were deleted.
 
-## 7. What changes in the app (later, once the data is in)
+## 7. Migration result on the copy (2026-11-18)
+- **Variations** (renamed from Poses): 100 rows. That's the 96 existing rows plus 4 new ones (Four-Limbed Staff · Plank hold, Fold B, Fold C · Grasp the elbows, Fold D), all marked "Needs cues, picture and contraindications" in Notes. Every row has a Pose and an Order. The 24 grouped variations have Fits the flow ticked.
+- **Poses** (new): 88 rows, with Sanskrit names copied over. The alternatives are Shoulder Stand → Legs Up the Wall, Headstand → Dolphin, and Splits → Half Splits.
+- **Sub-sequence steps:** *Pose* was renamed to *Default variation*, and a new *Pose* lookup was added. 228 of 234 steps resolve to a pose. The Step label formula still works.
+- **Not done by the connector:** *Sanskrit name* is still on Variations (the connector can't delete fields), so delete it in Airtable once you're happy.
+- **Found, not caused by the migration:** 6 steps have an empty pose link, in Stretch · Advanced/Intermediate Part 1, Energize · Intermediate/Advanced Part 1 and Strength · Advanced/Intermediate Part 1. They're probably where the Sun Salutation A/B rows used to be. None of them are in the vetted sequence.
+
+## 8. What changes in the app (later, once the data is in)
 - **Export:** `content.json` gets a `poses` map (family → ordered variations) and each step's `variation` ID. Variations carry level, order, props, fitsFlow and contraindications.
 - **Picking:** `pickVariation(step, student)` applies the rule in decision 009. Phase 1 has no student profile yet, so it returns the default, and nothing visible changes until the level check, body check-in or swap ships.
 - **Swap sheet:** a new Builder control. In protected sub-sequences, only *Fits the flow* variations are offered.
