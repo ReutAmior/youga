@@ -155,26 +155,35 @@ erDiagram
 Order always comes from **Position**, never from the order rows were linked. The Step columns are formulas that only label rows.
 
 ### 5.2 Export: Airtable → `data/content.json`
-- **Script:** `scripts/export-airtable.mjs`. Run `AIRTABLE_TOKEN=pat_xxx node scripts/export-airtable.mjs` (Node 18+, token with `data.records:read` on the base). Until that's set up, Claude refreshes the file through the Airtable connector.
-- **What's exported:** only sequences with **Vetted** ticked, their sub-sequences in order (empty ones included), their steps, and the poses those steps use.
-- **Images:** a pose gets a picture when `images/poses/<pose-name-slug>.svg` exists (for example `mountain-pose.svg`). Airtable's Picture field isn't used by the app, because Airtable attachment links expire after a few hours.
+- **Base:** Youga Content (`appXMpKy4TpNPp86j`), the base migrated to poses and variations (decision 009). The older base (`appNSNsHW04fBNxLc`) is kept only as a backup.
+- **Script:** `scripts/export-airtable.mjs`. Run `node --env-file=.env.local scripts/export-airtable.mjs` (Node 20+, `AIRTABLE_TOKEN` with `data.records:read` on the base, in `.env.local`, which git ignores). Until that's set up, Claude refreshes the file through the Airtable connector.
+- **What's exported:** only sequences with **Vetted** ticked, their sub-sequences in order (empty ones included), their steps, every pose those steps use with **all** its variations in Order, and those poses' alternative poses. Steps with no default variation are skipped and listed as a warning.
+- **Languages (decision 010):** text users see is exported as `{ "en": "…", "he": "…" }`. `he` is filled only when the row's **Hebrew checked** box is ticked; otherwise it's `null` and the app shows English.
+- **Images:** a variation gets a picture when `images/poses/<variation-name-slug>.svg` exists (for example `mountain-pose.svg`). Airtable's Picture field isn't used by the app, because Airtable attachment links expire after a few hours.
 - **The file is generated.** Edit Airtable, then re-export. Never edit the JSON by hand.
 
 Shape of `data/content.json`:
 
 ```json
 {
-  "exportedAt": "2026-11-03",
+  "exportedAt": "2026-11-19",
   "sequences": [{
-    "id": "rec…", "name": "Classic beginner class", "level": "Beginner", "goal": "Energize", "minutes": 45,
+    "id": "rec…", "name": { "en": "Energize · Beginner · 45 min", "he": null }, "level": "Beginner", "goal": "Energize", "minutes": 45,
     "sections": [{
-      "id": "rec…", "name": "Wind down", "editable": true, "transition": null,
-      "steps": [{ "pose": "rec…", "hold": 5, "breath": null, "transition": null }]
+      "id": "rec…", "name": { "en": "Wind down", "he": null }, "editable": true, "transition": null,
+      "steps": [{ "variation": "rec…", "pose": "rec…", "hold": 5, "breath": null, "transition": null }]
     }]
   }],
-  "poses": { "rec…": { "name": "…", "sanskrit": "…", "cueIn": "…", "cueOut": "…", "image": "images/poses/….svg" } }
+  "poses": { "rec…": { "name": { "en": "…", "he": null }, "sanskrit": "…", "variations": ["rec…"], "alternatives": ["rec…"] } },
+  "variations": { "rec…": {
+    "pose": "rec…", "name": { "en": "…", "he": null }, "level": "Beginner", "order": 1, "props": [],
+    "fitsFlow": true, "contraindications": ["Wrist injury"],
+    "cueIn": { "en": "…", "he": null }, "cueOut": { "en": "…", "he": null }, "image": "images/poses/….svg"
+  } }
 }
 ```
+
+In the app, `tr(value)` picks the current language with an English fallback, and `pickVariation(step)` chooses the version to show. In phase 1 it returns the step's default variation; decision 009's level step-down, "my version" and contraindication checks go there.
 
 ### 5.3 Matching a sequence (`findSequence` in app.js)
 1. Look only at vetted sequences with the chosen **level and goal**.
@@ -197,7 +206,7 @@ Shape of `data/content.json`:
 | `style.css` | tokens and components (sections 1–5 inside the file) |
 | `app.js` | loading, matching, builder, undo, play |
 | `data/content.json` | exported content (generated) |
-| `images/poses/*.svg` | pose illustrations, named by pose-name slug |
+| `images/poses/*.svg` | pose illustrations, named by variation-name slug |
 | `scripts/export-airtable.mjs` | the Airtable export |
 | `styleguide.html` | component gallery |
 | `docs/architecture.md` | this document |

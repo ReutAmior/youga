@@ -21,7 +21,8 @@ const PLACEHOLDER_TEXT = "Pose picture is coming soon";
 
 // ---------- State ----------
 
-let content = null;          // { sequences, poses } from data/content.json
+let content = null;          // { sequences, poses, variations } from data/content.json
+let lang = "en";             // language for content text; Hebrew arrives with the language picker (decision 010)
 let practice = null;         // { sequence, removed: Set of "section:step" keys }
 let lastRemoved = null;      // key of the most recently removed step, for Undo
 let undoTimer = null;
@@ -73,6 +74,21 @@ function findSequence(level, minutes, goal) {
   return { sequence: closest, exact: false };
 }
 
+// Content text is { en, he }. Shows the current language, falling back to English
+// when the Hebrew is missing or not checked yet (the export leaves it null).
+function tr(value) {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  return value[lang] || value.en || "";
+}
+
+// The version of the pose to show for a step. Phase 1 has no student profile yet,
+// so this is the step's default variation. Decision 009 adds the level step-down,
+// "my version" and contraindication checks here.
+function pickVariation(step) {
+  return content.variations[step.variation];
+}
+
 // "Inhale", "Exhale · 5 breaths", or "5 breaths".
 function breathBadge(step, large) {
   const hold = step.hold || 1;
@@ -85,12 +101,12 @@ function breathBadge(step, large) {
 
 // The pose picture, or a calm placeholder until a picture exists.
 // A missing picture never blocks a pose from showing.
-function poseArt(pose) {
+function poseArt(variation) {
   const wrap = el("div", "pose-art");
-  if (pose.image) {
+  if (variation.image) {
     const img = el("img");
-    img.src = pose.image;
-    img.alt = pose.name;
+    img.src = variation.image;
+    img.alt = tr(variation.name);
     img.loading = "lazy";
     wrap.appendChild(img);
   } else {
@@ -112,7 +128,7 @@ function remainingSteps() {
   const out = [];
   practice.sequence.sections.forEach((section, si) => {
     section.steps.forEach((step, k) => {
-      if (!practice.removed.has(stepKey(si, k))) out.push({ ...step, section: section.name });
+      if (!practice.removed.has(stepKey(si, k))) out.push({ ...step, section: tr(section.name) });
     });
   });
   return out;
@@ -132,7 +148,7 @@ function renderBuilder() {
       .filter(({ k }) => !practice.removed.has(stepKey(si, k)));
 
     const head = el("div", "section-head");
-    head.appendChild(el("h3", null, section.name));
+    head.appendChild(el("h3", null, tr(section.name)));
     if (visible.length) head.appendChild(el("span", "section-count", `${visible.length} ${visible.length === 1 ? "pose" : "poses"}`));
     container.appendChild(head);
 
@@ -147,7 +163,9 @@ function renderBuilder() {
 
     const grid = el("div", "pose-grid");
     visible.forEach(({ step, k }) => {
+      const variation = pickVariation(step);
       const pose = content.poses[step.pose];
+      const name = tr(variation.name);
       const card = el("div", "card pose-card");
       const body = el("div", "pose-card-body");
       // Every pose gets an "×". On a protected pose, or at the minimum, it is
@@ -156,7 +174,7 @@ function renderBuilder() {
       const allowed = section.editable && canRemove;
       const remove = el("button", "btn-icon", "×");
       remove.type = "button";
-      remove.setAttribute("aria-label", `Remove ${pose.name}`);
+      remove.setAttribute("aria-label", `Remove ${name}`);
       remove.setAttribute("aria-disabled", String(!allowed));
       if (allowed) remove.title = "Remove this pose";
       remove.addEventListener("click", () => {
@@ -165,8 +183,8 @@ function renderBuilder() {
         else removePose(si, k);
       });
       card.appendChild(remove);
-      card.appendChild(poseArt(pose));
-      body.appendChild(el("div", "pose-card-name", pose.name));
+      card.appendChild(poseArt(variation));
+      body.appendChild(el("div", "pose-card-name", name));
       if (pose.sanskrit) body.appendChild(el("p", "sanskrit", pose.sanskrit));
       body.appendChild(breathBadge(step, false));
       card.appendChild(body);
@@ -199,7 +217,7 @@ function removePose(sectionIndex, stepIndex) {
   lastRemoved = key;
   const step = practice.sequence.sections[sectionIndex].steps[stepIndex];
   renderBuilder();
-  showUndo(content.poses[step.pose].name);
+  showUndo(tr(pickVariation(step).name));
 }
 
 function showUndo(poseName) {
@@ -225,7 +243,7 @@ $("undo-button").addEventListener("click", () => {
 function showBuilder(match, minutesAsked) {
   const { sequence } = match;
   practice = { sequence, removed: new Set() };
-  $("sequence-name").textContent = sequence.name;
+  $("sequence-name").textContent = tr(sequence.name);
   const meta = $("sequence-meta");
   meta.innerHTML = "";
   meta.appendChild(el("span", "chip", `${sequence.minutes} min`));
@@ -257,20 +275,21 @@ function setCue(node, text) {
 
 function renderPlay() {
   const step = playSteps[playIndex];
+  const variation = pickVariation(step);
   const pose = content.poses[step.pose];
   const image = $("play-image");
   image.innerHTML = "";
-  image.appendChild(poseArt(pose).firstChild);
-  $("play-name").textContent = pose.name;
+  image.appendChild(poseArt(variation).firstChild);
+  $("play-name").textContent = tr(variation.name);
   $("play-sanskrit").textContent = pose.sanskrit || "";
   $("play-sanskrit").hidden = !pose.sanskrit;
   const breath = $("play-breath");
   breath.innerHTML = "";
   breath.appendChild(breathBadge(step, true));
-  setCue($("play-in"), pose.cueIn);
+  setCue($("play-in"), tr(variation.cueIn));
   // Inside a sub-sequence the practitioner flows straight into the next pose,
   // so its transition cue replaces the pose's own "out of the pose" cue.
-  setCue($("play-out"), step.transition || pose.cueOut);
+  setCue($("play-out"), tr(step.transition) || tr(variation.cueOut));
   $("play-section").textContent = step.section;
   $("play-counter").textContent = `${playIndex + 1} of ${playSteps.length}`;
   $("progress-fill").style.width = `${((playIndex + 1) / playSteps.length) * 100}%`;
