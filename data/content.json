@@ -237,17 +237,6 @@
         "recuCYcFjDFz6RN7g"
       ]
     },
-    "reckWFs6ol0DMPUeg": {
-      "name": {
-        "en": "Downward-Facing Dog",
-        "he": null
-      },
-      "sanskrit": "Adho Mukha Svanasana",
-      "variations": [
-        "reciJkZEmNf240jg5"
-      ],
-      "alternatives": []
-    },
     "recob6fLMWIFpEnFo": {
       "name": {
         "en": "Upward-facing dog",
@@ -260,6 +249,17 @@
       "alternatives": [
         "recHcKJ5M7oiVKsjD"
       ]
+    },
+    "reckWFs6ol0DMPUeg": {
+      "name": {
+        "en": "Downward-Facing Dog",
+        "he": null
+      },
+      "sanskrit": "Adho Mukha Svanasana",
+      "variations": [
+        "reciJkZEmNf240jg5"
+      ],
+      "alternatives": []
     },
     "recrGeDCBAXhR7E4k": {
       "name": {
@@ -443,6 +443,29 @@
       },
       "image": null
     },
+    "rec7Moa9qqdGKW45R": {
+      "pose": "recob6fLMWIFpEnFo",
+      "name": {
+        "en": "Upward-facing dog",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Wrist injury"
+      ],
+      "cueIn": {
+        "en": "From plank, lower your knees to touch the mat, extend the spine and neck and look upward. If you feel comfortable, lift your knees from the floor.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Tuck your toes and lift your hips up and back to downward-facing dog.",
+        "he": null
+      },
+      "image": null
+    },
     "reciJkZEmNf240jg5": {
       "pose": "reckWFs6ol0DMPUeg",
       "name": {
@@ -466,29 +489,6 @@
         "he": null
       },
       "image": "images/poses/downward-facing-dog.svg"
-    },
-    "rec7Moa9qqdGKW45R": {
-      "pose": "recob6fLMWIFpEnFo",
-      "name": {
-        "en": "Upward-facing dog",
-        "he": null
-      },
-      "level": "Beginner",
-      "order": 1,
-      "props": [],
-      "fitsFlow": false,
-      "contraindications": [
-        "Wrist injury"
-      ],
-      "cueIn": {
-        "en": "From plank, lower your knees to touch the mat, extend the spine and neck and look upward. If you feel comfortable, lift your knees from the floor.",
-        "he": null
-      },
-      "cueOut": {
-        "en": "Tuck your toes and lift your hips up and back to downward-facing dog.",
-        "he": null
-      },
-      "image": null
     },
     "recSyfdE2BuHUHSwS": {
       "pose": "recrGeDCBAXhR7E4k",
