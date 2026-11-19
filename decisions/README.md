@@ -22,6 +22,7 @@ Every meaningful product or technical decision gets a short record here, so we c
 | [007](007-integrations.md) | Integrations by phase; pose images deferred behind a placeholder | Accepted | 2026-11-01 |
 | [008](008-content-in-airtable.md) | Content authoring: Airtable, exported to JSON | Accepted | 2026-11-03 |
 | [009](009-pose-variations.md) | Poses have variations; the level lives on the variation | Accepted | 2026-11-18 |
+| [010](010-localization.md) | Localization: Hebrew, a column per language in Airtable, RTL | Accepted | 2026-11-19 |
 
 ## Technical reference
 
