@@ -1,6 +1,6 @@
 # Draft: pose variations in Airtable
 
-- **Status:** Migration run on the copy **Youga Content (Copy)** (`appXMpKy4TpNPp86j`) on 2026-11-18, steps 1–6. The original base is unchanged. Implements [decision 009](../decisions/009-pose-variations.md).
+- **Status:** Migration run on **Youga Content (Copy)** (`appXMpKy4TpNPp86j`) on 2026-11-18, steps 1–6. Step 7 (export and app) done 2026-11-19. That base is now the main one; the original (`appNSNsHW04fBNxLc`) is a backup. Implements [decision 009](../decisions/009-pose-variations.md).
 - **Date:** 2026-11-18 (updated with your answers)
 
 ## 1. The idea in one picture

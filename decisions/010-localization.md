@@ -50,3 +50,6 @@ With one extra language and me as the translator, seeing English and Hebrew side
 - **A natural AI step:** Claude can draft the Hebrew translations, with me reviewing them before ticking "Hebrew checked".
 - **Order of work:** finish the variations change (009) in the export and app first, then add the Hebrew columns, so the export script is only rewritten once.
 - **Revisit if:** we plan a third or fourth language, or bring in outside translators. Then a translation platform (option 3) pays off.
+
+## Progress
+- **2026-11-19:** Hebrew twin fields and a "Hebrew checked" box added to every table in Youga Content (`appXMpKy4TpNPp86j`). Claude drafted Hebrew for the vetted sequence (Energize · Beginner · 45 min), left unchecked for review. The export writes `{ en, he }`, and the app reads it with an English fallback. The language picker and the UI string files are next.
