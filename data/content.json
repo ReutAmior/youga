@@ -1,6 +1,6 @@
 {
   "_note": "Generated from the Youga Content Airtable base. Do not edit by hand; edit Airtable and re-export (see docs/architecture.md).",
-  "exportedAt": "2026-11-19",
+  "exportedAt": "2026-11-22",
   "sequences": [
     {
       "id": "recKHEvsCsAEeMFrO",
@@ -13,10 +13,56 @@
       "minutes": 45,
       "sections": [
         {
+          "id": "reca7rOVZhHjZeDlf",
+          "name": {
+            "en": "Easy warm up",
+            "he": "חימום קל"
+          },
+          "editable": true,
+          "transition": null,
+          "steps": [
+            {
+              "variation": "recrVakU0MKoivF41",
+              "pose": "rechvfSk9jTT5Jv0N",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recTcJtanWV48m0qj",
+              "pose": "recZDYx4YxFqj1x0O",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recqZKAhPErPDoby5",
+              "pose": "recqjV9J67ED9kEKe",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recRsQEQyPBuQpePi",
+              "pose": "recit8S4uW3sXzVMm",
+              "hold": 6,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recEUez1IWHkCfInd",
+              "pose": "rec3HXzRFa12sBmco",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            }
+          ]
+        },
+        {
           "id": "rec57kjypm6u1Xbcn",
           "name": {
             "en": "Sun salutation 1",
-            "he": null
+            "he": "ברכת השמש 1"
           },
           "editable": false,
           "transition": null,
@@ -99,38 +145,111 @@
         {
           "id": "recG5tXA7HAB7agZ5",
           "name": {
-            "en": "Standing series - beginner",
-            "he": null
+            "en": "Trikonasa + Parsva + tree - beginner",
+            "he": "רצף עמידה – מתחילים"
           },
           "editable": true,
           "transition": null,
-          "steps": []
+          "steps": [
+            {
+              "variation": "rec17cfzGwymQjXwz",
+              "pose": "rec0MCFcwzjN2RPrt",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recvfgvBnD5V6M0zN",
+              "pose": "recKZGlZ2zOm9GLAL",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recpmv9IWdFJAzp1d",
+              "pose": "rec01rsnjwSgT9rtR",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            }
+          ]
         },
         {
           "id": "rec9FmwElkDKdkXDo",
           "name": {
-            "en": "Seating Series - beginner",
-            "he": null
+            "en": "Paschimo + Reverse table + Janu - beginner",
+            "he": "רצף ישיבה – מתחילים"
           },
           "editable": true,
           "transition": null,
-          "steps": []
+          "steps": [
+            {
+              "variation": "recUScSP77ZhC7VzZ",
+              "pose": "rechfbgKqNuK7TcBV",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "rec3IEHZAIQPFFkuJ",
+              "pose": "recLJMkQtxoRvGyX1",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "rec8SelQOwV4SArfT",
+              "pose": "recA9uAMI3xEqTJ4v",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            }
+          ]
         },
         {
           "id": "recSGUwAuZXt64aPb",
           "name": {
             "en": "Reclined poses - beginner",
-            "he": null
+            "he": "תנוחות שכיבה – מתחילים"
           },
           "editable": true,
           "transition": null,
-          "steps": []
+          "steps": [
+            {
+              "variation": "recmzHDdQsf7qo8Ba",
+              "pose": "rechDql70HfwxrqjG",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recKefxXmtiBria9j",
+              "pose": "rec26VFXMfUbI1oW3",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "reciVSf0RpozsJLb1",
+              "pose": "recogihtSBRVbjBLK",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            },
+            {
+              "variation": "recxc89WOtX2Ca022",
+              "pose": "recWfPQ5XVmczYMlm",
+              "hold": 5,
+              "breath": null,
+              "transition": null
+            }
+          ]
         },
         {
           "id": "recdITQnOY5EH96Ch",
           "name": {
             "en": "Wind down",
-            "he": null
+            "he": "האטה והרגעה"
           },
           "editable": true,
           "transition": null,
@@ -155,7 +274,7 @@
           "id": "rec1jDn8zE6aPYGZn",
           "name": {
             "en": "Ending series",
-            "he": null
+            "he": "רצף סיום"
           },
           "editable": true,
           "transition": null,
@@ -180,6 +299,61 @@
     }
   ],
   "poses": {
+    "rechvfSk9jTT5Jv0N": {
+      "name": {
+        "en": "Seated Hip Circles",
+        "he": null
+      },
+      "sanskrit": "",
+      "variations": [
+        "recrVakU0MKoivF41"
+      ],
+      "alternatives": []
+    },
+    "recZDYx4YxFqj1x0O": {
+      "name": {
+        "en": "Shoulder Rolls",
+        "he": null
+      },
+      "sanskrit": "",
+      "variations": [
+        "recTcJtanWV48m0qj"
+      ],
+      "alternatives": []
+    },
+    "recqjV9J67ED9kEKe": {
+      "name": {
+        "en": "Seated Side-Bend Circles",
+        "he": null
+      },
+      "sanskrit": "",
+      "variations": [
+        "recqZKAhPErPDoby5"
+      ],
+      "alternatives": []
+    },
+    "recit8S4uW3sXzVMm": {
+      "name": {
+        "en": "Cat-Cow",
+        "he": null
+      },
+      "sanskrit": "Marjaryasana-Bitilasana",
+      "variations": [
+        "recRsQEQyPBuQpePi"
+      ],
+      "alternatives": []
+    },
+    "rec3HXzRFa12sBmco": {
+      "name": {
+        "en": "Thread the Needle",
+        "he": null
+      },
+      "sanskrit": "Parsva Balasana",
+      "variations": [
+        "recEUez1IWHkCfInd"
+      ],
+      "alternatives": []
+    },
     "rec2yN4BFOIsSejWR": {
       "name": {
         "en": "Mountain Pose",
@@ -261,6 +435,123 @@
       ],
       "alternatives": []
     },
+    "rec0MCFcwzjN2RPrt": {
+      "name": {
+        "en": "Triangle",
+        "he": null
+      },
+      "sanskrit": "Utthita Trikonasana",
+      "variations": [
+        "rec17cfzGwymQjXwz"
+      ],
+      "alternatives": []
+    },
+    "recKZGlZ2zOm9GLAL": {
+      "name": {
+        "en": "Extended Side Angle",
+        "he": null
+      },
+      "sanskrit": "Utthita Parsvakonasana",
+      "variations": [
+        "recq5X8UDTaMqgTZz",
+        "recvfgvBnD5V6M0zN"
+      ],
+      "alternatives": []
+    },
+    "rec01rsnjwSgT9rtR": {
+      "name": {
+        "en": "Tree",
+        "he": null
+      },
+      "sanskrit": "Vrksasana",
+      "variations": [
+        "recKe8rTpkC3ycolL",
+        "recpmv9IWdFJAzp1d"
+      ],
+      "alternatives": []
+    },
+    "rechfbgKqNuK7TcBV": {
+      "name": {
+        "en": "Seated Forward Fold",
+        "he": null
+      },
+      "sanskrit": "Paschimottanasana",
+      "variations": [
+        "recUScSP77ZhC7VzZ"
+      ],
+      "alternatives": []
+    },
+    "recLJMkQtxoRvGyX1": {
+      "name": {
+        "en": "Reverse Tabletop",
+        "he": null
+      },
+      "sanskrit": "Ardha Purvottanasana",
+      "variations": [
+        "rec3IEHZAIQPFFkuJ"
+      ],
+      "alternatives": []
+    },
+    "recA9uAMI3xEqTJ4v": {
+      "name": {
+        "en": "Head-to-Knee",
+        "he": null
+      },
+      "sanskrit": "Janu Sirsasana",
+      "variations": [
+        "rec8SelQOwV4SArfT"
+      ],
+      "alternatives": []
+    },
+    "rechDql70HfwxrqjG": {
+      "name": {
+        "en": "Reclined Big Toe A",
+        "he": null
+      },
+      "sanskrit": "Supta Padangusthasana A",
+      "variations": [
+        "recmzHDdQsf7qo8Ba",
+        "rec5LcjlWrkudhF1B"
+      ],
+      "alternatives": []
+    },
+    "rec26VFXMfUbI1oW3": {
+      "name": {
+        "en": "Reclined Big Toe B",
+        "he": null
+      },
+      "sanskrit": "Supta Padangusthasana B",
+      "variations": [
+        "recKefxXmtiBria9j",
+        "recN30R8evZZrP2n1"
+      ],
+      "alternatives": []
+    },
+    "recogihtSBRVbjBLK": {
+      "name": {
+        "en": "Bridge",
+        "he": null
+      },
+      "sanskrit": "Setu Bandha Sarvangasana",
+      "variations": [
+        "reciVSf0RpozsJLb1",
+        "rec8fMbhDGCBkzrxz"
+      ],
+      "alternatives": []
+    },
+    "recWfPQ5XVmczYMlm": {
+      "name": {
+        "en": "Knees to Chest",
+        "he": null
+      },
+      "sanskrit": "Apanasana",
+      "variations": [
+        "recxc89WOtX2Ca022"
+      ],
+      "alternatives": [
+        "recoEucQ4UmHCoyOK"
+      ]
+    },
     "recrGeDCBAXhR7E4k": {
       "name": {
         "en": "Reclined Twist",
@@ -330,6 +621,118 @@
     }
   },
   "variations": {
+    "recrVakU0MKoivF41": {
+      "pose": "rechvfSk9jTT5Jv0N",
+      "name": {
+        "en": "Seated Hip Circles",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [],
+      "cueIn": {
+        "en": "Sit cross-legged with your hands on your knees. Circle your torso slowly over your hips, then switch direction.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Come back to center and sit tall.",
+        "he": null
+      },
+      "image": null
+    },
+    "recTcJtanWV48m0qj": {
+      "pose": "recZDYx4YxFqj1x0O",
+      "name": {
+        "en": "Shoulder Rolls",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [],
+      "cueIn": {
+        "en": "Sitting tall, lift your shoulders up toward your ears, roll them back and down. Keep the movement slow and round.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Let your shoulders settle down and back.",
+        "he": null
+      },
+      "image": null
+    },
+    "recqZKAhPErPDoby5": {
+      "pose": "recqjV9J67ED9kEKe",
+      "name": {
+        "en": "Seated Side-Bend Circles",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Shoulder injury"
+      ],
+      "cueIn": {
+        "en": "Sit cross-legged and hold opposite elbows overhead. Circle your upper body around: to one side, forward, to the other side and back to center.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Return to center and lower your arms.",
+        "he": null
+      },
+      "image": null
+    },
+    "recRsQEQyPBuQpePi": {
+      "pose": "recit8S4uW3sXzVMm",
+      "name": {
+        "en": "Cat-Cow",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Wrist injury"
+      ],
+      "cueIn": {
+        "en": "Come to all fours (tabletop). With each inhale, arch your back (Cow); with each exhale, round your back (Cat).",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Return to a neutral tabletop.",
+        "he": null
+      },
+      "image": null
+    },
+    "recEUez1IWHkCfInd": {
+      "pose": "rec3HXzRFa12sBmco",
+      "name": {
+        "en": "Thread the Needle",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Shoulder injury",
+        "Neck injury"
+      ],
+      "cueIn": {
+        "en": "From tabletop, inhale and reach your right arm up. Exhale and thread it under your body to the left. Breathe here for 5 breaths.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "On an inhale, come back up to tabletop. Repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
     "recg1WYbC8YfQIE6e": {
       "pose": "rec2yN4BFOIsSejWR",
       "name": {
@@ -489,6 +892,347 @@
         "he": null
       },
       "image": "images/poses/downward-facing-dog.svg"
+    },
+    "rec17cfzGwymQjXwz": {
+      "pose": "rec0MCFcwzjN2RPrt",
+      "name": {
+        "en": "Triangle",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Neck injury"
+      ],
+      "cueIn": {
+        "en": "Step your feet wide, front toes forward back foot is 90 degrees to the front. Spread your arms shoulder height and reach forward over your front leg. Then lower your hand to your shin and lift the other arm toward the ceiling. Pelvis is parallel to the long side of he mat.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Inhale and come up, then repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
+    "recq5X8UDTaMqgTZz": {
+      "pose": "recKZGlZ2zOm9GLAL",
+      "name": {
+        "en": "Extended Side Angle  · Forearm on thigh",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Knee injury"
+      ],
+      "cueIn": {
+        "en": "From a wide stance, bend your front knee over your ankle. Rest your forearm on your thigh and reach your top arm over your ear.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Inhale and come up, then repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
+    "recvfgvBnD5V6M0zN": {
+      "pose": "recKZGlZ2zOm9GLAL",
+      "name": {
+        "en": "Extended Side Angle",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Knee injury"
+      ],
+      "cueIn": {
+        "en": "From a wide stance, bend your front knee over your ankle. Place your palm on the mat on the outside part of your foot and reach your top arm over your ear.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Inhale and come up, then repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
+    "recKe8rTpkC3ycolL": {
+      "pose": "rec01rsnjwSgT9rtR",
+      "name": {
+        "en": "Tree · Foot on ankel",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": true,
+      "contraindications": [],
+      "cueIn": {
+        "en": "Stand on one leg and place the other foot on your ankle. Bring your palms together at your chest.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Lower your foot and repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
+    "recpmv9IWdFJAzp1d": {
+      "pose": "rec01rsnjwSgT9rtR",
+      "name": {
+        "en": "Tree",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": true,
+      "contraindications": [],
+      "cueIn": {
+        "en": "Stand on one leg and place the other foot on your inner calf or thigh (not on the knee). Bring your palms together at your chest.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Lower your foot and repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
+    "recUScSP77ZhC7VzZ": {
+      "pose": "rechfbgKqNuK7TcBV",
+      "name": {
+        "en": "Seated Forward Fold",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Lower back pain"
+      ],
+      "cueIn": {
+        "en": "Inhale and reach toward your toes, but hold wherever is comfortable and lets you fold forward without loading the shoulders. You can bend your knees.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Inhale and roll up to sitting.",
+        "he": null
+      },
+      "image": null
+    },
+    "rec3IEHZAIQPFFkuJ": {
+      "pose": "recLJMkQtxoRvGyX1",
+      "name": {
+        "en": "Reverse Tabletop",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Wrist injury",
+        "Neck injury",
+        "Vertigo"
+      ],
+      "cueIn": {
+        "en": "Sit with knees bent and feet flat, hands behind you with fingers toward your feet. Press into your hands and feet and lift your hips into a tabletop.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Lower your hips slowly back to the mat.",
+        "he": null
+      },
+      "image": null
+    },
+    "rec8SelQOwV4SArfT": {
+      "pose": "recA9uAMI3xEqTJ4v",
+      "name": {
+        "en": "Head-to-Knee",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Knee injury"
+      ],
+      "cueIn": {
+        "en": "Bend one knee and place the sole against your inner thigh. Hold whatever part of the straight leg you can reach, shin or further toward the foot. In this fold the head goes toward the knee, not far forward toward the foot.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Roll up and repeat on the other side.",
+        "he": null
+      },
+      "image": null
+    },
+    "recmzHDdQsf7qo8Ba": {
+      "pose": "rechDql70HfwxrqjG",
+      "name": {
+        "en": "Reclined Big Toe A · Strap",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [
+        "Strap"
+      ],
+      "fitsFlow": true,
+      "contraindications": [],
+      "cueIn": {
+        "en": "Lie on your back, loop a strap around one foot and extend that leg up toward the ceiling. Keep the other leg long on the mat.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Bend the knee and lower the foot to the mat.",
+        "he": null
+      },
+      "image": null
+    },
+    "rec5LcjlWrkudhF1B": {
+      "pose": "rechDql70HfwxrqjG",
+      "name": {
+        "en": "Reclined Big Toe A",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 2,
+      "props": [],
+      "fitsFlow": true,
+      "contraindications": [],
+      "cueIn": {
+        "en": "Lie on your back, hold your big toe and extend that leg up toward the ceiling. Keep the other leg long on the mat.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Bend the knee and lower the foot to the mat.",
+        "he": null
+      },
+      "image": null
+    },
+    "recKefxXmtiBria9j": {
+      "pose": "rec26VFXMfUbI1oW3",
+      "name": {
+        "en": "Reclined Big Toe B · Strap",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [
+        "Strap"
+      ],
+      "fitsFlow": true,
+      "contraindications": [],
+      "cueIn": {
+        "en": "From the upward variation, open the strapped leg out to the side, keeping the opposite hip grounded.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Bring the leg back to center, bend the knee and lower the foot.",
+        "he": null
+      },
+      "image": null
+    },
+    "recN30R8evZZrP2n1": {
+      "pose": "rec26VFXMfUbI1oW3",
+      "name": {
+        "en": "Reclined Big Toe B",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 2,
+      "props": [],
+      "fitsFlow": true,
+      "contraindications": [],
+      "cueIn": {
+        "en": "From the upward variation, keep holding your big toe and open the leg out to the side, keeping the opposite hip grounded.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Bring the leg back to center, bend the knee and lower the foot.",
+        "he": null
+      },
+      "image": null
+    },
+    "reciVSf0RpozsJLb1": {
+      "pose": "recogihtSBRVbjBLK",
+      "name": {
+        "en": "Bridge · Supported",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [
+        "Block"
+      ],
+      "fitsFlow": true,
+      "contraindications": [
+        "Neck injury"
+      ],
+      "cueIn": {
+        "en": "Lift your hips and place a lift under your sacrum (the broad bone just below the lower back, not on the lower back). With the lift the pose is easier and restful.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Lift your hips, remove the lift and lower down slowly.",
+        "he": null
+      },
+      "image": null
+    },
+    "rec8fMbhDGCBkzrxz": {
+      "pose": "recogihtSBRVbjBLK",
+      "name": {
+        "en": "Bridge",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 2,
+      "props": [],
+      "fitsFlow": true,
+      "contraindications": [
+        "Neck injury"
+      ],
+      "cueIn": {
+        "en": "Lie on your back with knees bent and feet oh the mat hip-width apart. Press into your feet and lift your hips, arms long by your sides, palm on the mat. Avoid pain in your lower back.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Lower your spine to the mat slowly, vertebra by vertebra.",
+        "he": null
+      },
+      "image": null
+    },
+    "recxc89WOtX2Ca022": {
+      "pose": "recWfPQ5XVmczYMlm",
+      "name": {
+        "en": "Knees to Chest",
+        "he": null
+      },
+      "level": "Beginner",
+      "order": 1,
+      "props": [],
+      "fitsFlow": false,
+      "contraindications": [
+        "Pregnancy"
+      ],
+      "cueIn": {
+        "en": "Lie on your back, bend your knees and hug them toward your chest. Rock gently side to side.",
+        "he": null
+      },
+      "cueOut": {
+        "en": "Release your feet back to the mat.",
+        "he": null
+      },
+      "image": null
     },
     "recSyfdE2BuHUHSwS": {
       "pose": "recrGeDCBAXhR7E4k",
